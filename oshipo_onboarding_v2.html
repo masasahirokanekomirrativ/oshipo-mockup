@@ -4,6 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OSHIPO 推しオンボーディング v2 モック</title>
+<script>
+(function() {
+  var PASS = 'oshipo_qa';
+  var KEY = 'oshipo_auth';
+  if (sessionStorage.getItem(KEY) !== '1') {
+    document.addEventListener('DOMContentLoaded', function() { document.body.style.display = 'none'; });
+    var input = prompt('パスワードを入力してください');
+    if (input === PASS) { sessionStorage.setItem(KEY, '1'); }
+    else { document.write('<style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#f5f0eb;color:#414141;font-size:15px;font-weight:700;}</style><body>アクセスが拒否されました。ページを再読み込みして再試行してください。</body>'); document.close(); }
+  }
+})();
+</script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
