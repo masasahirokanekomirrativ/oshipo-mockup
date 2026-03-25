@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSHIPO 推しオンボーディング v2 モック</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --orange-90: #fea714;
+    --orange-30: #ffdca1;
+    --orange-10: #ffedd0;
+    --orange-5: #fff6e7;
+    --gray-100: #414141;
+    --gray-60: #5f5f5f;
+    --gray-20: #bbbbbb;
+    --gray-10: #dbdbdb;
+    --gray-5: #ececec;
+    --text-high: #242424;
+    --grad-start: #ff9500;
+    --grad-end: #ef627f;
+    --accent-start: #ffcb0f;
+    --accent-end: #ff3f88;
+    --pink: #ff4886;
+    --x-blue: #1d9bf0;
+  }
+  body {
+    font-family: "M PLUS Rounded 1c", "Hiragino Sans", sans-serif;
+    background: #f5f5f5;
+    min-height: 100vh;
+    padding: 24px 16px;
+  }
+
+  /* ===== VIEWER LAYOUT ===== */
+  .viewer-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .viewer-header h1 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-high);
+    margin-bottom: 4px;
+  }
+  .viewer-header p {
+    font-size: 12px;
+    color: var(--gray-60);
+  }
+  .step-nav {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .step-btn {
+    padding: 6px 16px;
+    border-radius: 999px;
+    border: 2px solid var(--gray-10);
+    background: white;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gray-60);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .step-btn.active {
+    background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+    border-color: transparent;
+    color: white;
+  }
+  .phone-frame {
+    max-width: 390px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ===== STEP INDICATOR ===== */
+  .step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 20px 0 0;
+    justify-content: center;
+  }
+  .dot {
+    height: 6px;
+    border-radius: 999px;
+    transition: all 0.3s;
+    background: var(--gray-10);
+    width: 6px;
+  }
+  .dot.active { background: var(--orange-90); width: 24px; }
+  .dot.done { background: var(--orange-30); }
+
+  /* ===== CONTENT AREA ===== */
+  .step-content { padding: 16px 24px 32px; }
+
+  /* ===== GRADIENT CARD ===== */
+  .grad-card {
+    background: linear-gradient(135deg, var(--grad-start), var(--grad-end));
+    border-radius: 16px;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .grad-card .icon-circle {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+  }
+  .grad-card .title {
+    font-size: 18px; font-weight: 700;
+    color: white; text-align: center;
+    line-height: 1.4; letter-spacing: 0.04em;
+  }
+
+  /* ===== POINT LIST ===== */
+  .point-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .point-item {
+    background: var(--orange-5);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .point-item .emoji { font-size: 20px; }
+  .point-item .text { font-size: 14px; font-weight: 500; color: var(--gray-100); }
+
+  /* ===== SLIDE DOTS ===== */
+  .slide-dots { display: flex; justify-content: center; gap: 6px; margin-bottom: 16px; }
+  .slide-dot {
+    height: 8px; border-radius: 999px; transition: all 0.3s;
+    background: var(--gray-10); width: 8px; cursor: pointer;
+  }
+  .slide-dot.active { background: var(--orange-90); width: 20px; }
+
+  /* ===== BUTTONS ===== */
+  .btn-primary {
+    width: 100%; height: 48px;
+    border-radius: 999px;
+    background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+    border: none;
+    color: white; font-size: 15px; font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 4px;
+  }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-ghost {
+    width: 100%; height: 40px;
+    border-radius: 999px;
+    background: transparent; border: none;
+    color: var(--gray-60); font-size: 14px; font-weight: 500;
+    cursor: pointer;
+  }
+  .btn-ghost:hover { color: var(--gray-100); }
+  .btn-x {
+    width: 100%; height: 48px;
+    border-radius: 999px;
+    background: black; border: none;
+    color: white; font-size: 14px; font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    position: relative;
+  }
+  .btn-x:hover { background: #111; }
+  .btn-x .x-icon {
+    position: absolute; left: 16px;
+    font-size: 16px;
+  }
+
+  /* ===== TITLE BLOCK ===== */
+  .title-block {
+    text-align: center; margin-bottom: 16px;
+  }
+  .title-block .main { font-size: 20px; font-weight: 700; color: var(--text-high); line-height: 1.4; letter-spacing: 0.04em; }
+  .title-block .sub { font-size: 13px; color: var(--gray-60); margin-top: 4px; }
+  .title-block .accent-sub { font-size: 11px; font-weight: 700; color: var(--orange-90); letter-spacing: 0.08em; margin-bottom: 4px; }
+
+  /* ===== QUESTION CARDS ===== */
+  .question-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .question-card {
+    display: flex; align-items: center; gap: 12px;
+    border: 2px solid var(--gray-5);
+    border-radius: 12px;
+    padding: 14px 16px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    width: 100%;
+  }
+  .question-card:hover { border-color: var(--orange-30); }
+  .question-card.selected {
+    border-color: var(--orange-90);
+    background: var(--orange-5);
+  }
+  .question-card .radio {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--gray-20);
+    background: white;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    font-size: 11px; color: white; font-weight: 700;
+  }
+  .question-card.selected .radio {
+    border-color: var(--orange-90);
+    background: var(--orange-90);
+  }
+  .question-card .q-text {
+    font-size: 14px; font-weight: 500;
+    color: var(--gray-100); line-height: 1.5;
+  }
+
+  /* ===== 500pt BANNER ===== */
+  .banner-500pt {
+    background: linear-gradient(to right, var(--accent-start), var(--accent-end));
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-bottom: 16px;
+  }
+  .banner-500pt .text { font-size: 14px; font-weight: 700; color: white; }
+
+  /* ===== X POST PREVIEW ===== */
+  .x-post-preview {
+    border: 1px solid var(--gray-10);
+    border-radius: 12px;
+    padding: 16px;
+    background: white;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .x-post-header { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+  .x-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--grad-start), var(--grad-end));
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: white;
+  }
+  .x-name { font-size: 14px; font-weight: 700; color: var(--gray-100); margin-bottom: 4px; }
+  .x-body { font-size: 14px; line-height: 1.6; color: var(--gray-100); }
+  .x-hashtag { color: var(--x-blue); }
+  .x-image {
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--grad-start), var(--grad-end));
+    height: 80px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: white;
+    border: 1px solid var(--gray-10);
+  }
+
+  /* ===== COMPLETE ===== */
+  .complete-icon {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--grad-start), var(--grad-end));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px; margin: 0 auto 12px;
+  }
+  .complete-text { text-align: center; margin-bottom: 20px; }
+  .complete-text .main { font-size: 20px; font-weight: 700; color: var(--text-high); margin-bottom: 4px; }
+  .complete-text .sub { font-size: 13px; line-height: 1.6; color: var(--gray-60); }
+
+  /* ===== OSHIPON MESSAGE ===== */
+  .oshipon-msg {
+    display: flex; gap: 12px; margin-bottom: 20px;
+  }
+  .oshipon-avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 22px;
+  }
+  .oshipon-bubble-wrap { display: flex; flex-direction: column; gap: 4px; }
+  .oshipon-label { font-size: 11px; font-weight: 700; color: var(--gray-60); }
+  .oshipon-bubble {
+    background: var(--orange-5);
+    border-radius: 16px 16px 16px 4px;
+    padding: 12px 16px;
+    font-size: 14px; line-height: 1.6; color: var(--gray-100);
+  }
+
+  /* ===== STEP DISPLAY LOGIC ===== */
+  .step-panel { display: none; }
+  .step-panel.active { display: block; }
+
+  /* ===== FOOTER NOTE ===== */
+  .footer-note {
+    text-align: center; font-size: 11px; color: var(--gray-60);
+    margin-top: 16px; line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="viewer-header">
+  <h1>OSHIPO 推しオンボーディング v2</h1>
+  <p>推しが登録後 /home で表示されるモーダルフロー</p>
+</div>
+
+<!-- Step navigation -->
+<div class="step-nav">
+  <button class="step-btn active" onclick="showStep(1)">Step 1｜サービス説明</button>
+  <button class="step-btn" onclick="showStep(2)">Step 2｜質問選択</button>
+  <button class="step-btn" onclick="showStep(3)">Step 3｜Xシェア</button>
+  <button class="step-btn" onclick="showStep(4)">Step 4｜完了</button>
+</div>
+
+<!-- Phone frame -->
+<div class="phone-frame">
+
+  <!-- Step indicator -->
+  <div class="step-indicator" id="step-indicator">
+    <div class="dot active" id="dot-1"></div>
+    <div class="dot" id="dot-2"></div>
+    <div class="dot" id="dot-3"></div>
+    <div class="dot" id="dot-4"></div>
+  </div>
+
+  <!-- ===================== STEP 1: Intro slides ===================== -->
+  <div class="step-panel active" id="panel-1">
+    <div class="step-content">
+      <div class="grad-card" id="slide-card">
+        <div class="icon-circle" id="slide-icon">🎉</div>
+        <div class="title" id="slide-title">OSHIPOでこんなことができるよ</div>
+      </div>
+
+      <div class="point-list" id="slide-points">
+        <div class="point-item"><span class="emoji">💬</span><span class="text">毎日ファンに質問を届けられる</span></div>
+        <div class="point-item"><span class="emoji">🏆</span><span class="text">回答が集まるとポイントがもらえる</span></div>
+        <div class="point-item"><span class="emoji">🤝</span><span class="text">ファンとの絆が毎日積み重なる</span></div>
+      </div>
+
+      <div class="slide-dots">
+        <div class="slide-dot active" id="sdot-0" onclick="setSlide(0)"></div>
+        <div class="slide-dot" id="sdot-1" onclick="setSlide(1)"></div>
+        <div class="slide-dot" id="sdot-2" onclick="setSlide(2)"></div>
+      </div>
+
+      <button class="btn-primary" id="slide-btn" onclick="nextSlide()">次へ →</button>
+    </div>
+  </div>
+
+  <!-- ===================== STEP 2: Question select ===================== -->
+  <div class="step-panel" id="panel-2">
+    <div class="step-content">
+      <div class="title-block">
+        <div class="main">最初の質問を選ぼう！</div>
+        <div class="sub">1つ選んでXでシェアしよう</div>
+      </div>
+
+      <div class="question-list">
+        <button class="question-card" onclick="selectQ(this)">
+          <div class="radio"></div>
+          <div class="q-text">推しに聞いてみたいことってある？</div>
+        </button>
+        <button class="question-card" onclick="selectQ(this)">
+          <div class="radio"></div>
+          <div class="q-text">推しが朝に寝ぼけて言いそうな可愛い一言は？</div>
+        </button>
+        <button class="question-card" onclick="selectQ(this)">
+          <div class="radio"></div>
+          <div class="q-text">推しに言われてみたい一言を教えて！</div>
+        </button>
+        <button class="question-card" onclick="selectQ(this)">
+          <div class="radio"></div>
+          <div class="q-text">推しに贈りたい「〇〇賞」を考えてみて！</div>
+        </button>
+        <button class="question-card" onclick="selectQ(this)">
+          <div class="radio"></div>
+          <div class="q-text">今日の推し活、何してた？</div>
+        </button>
+      </div>
+
+      <button class="btn-primary" id="q-submit-btn" onclick="showStep(3)" disabled>この質問でシェアする →</button>
+    </div>
+  </div>
+
+  <!-- ===================== STEP 3: X Share ===================== -->
+  <div class="step-panel" id="panel-3">
+    <div class="step-content">
+      <div class="title-block">
+        <div class="main">選んだ質問を<br>Xでシェアしよう！</div>
+        <div class="sub">シェアするとファンに質問が届くよ 🚀</div>
+      </div>
+
+      <div class="banner-500pt">
+        <span>🎁</span>
+        <span class="text">今なら500ptプレゼント！</span>
+      </div>
+
+      <div class="x-post-preview">
+        <div class="x-post-header">
+          <div class="x-avatar">テ</div>
+          <div>
+            <div class="x-name">テストVTuber</div>
+            <div class="x-body" id="x-post-text">推しに聞いてみたいことってある？<br>ぜひ教えてね！<br><span class="x-hashtag">#OSHIPO</span></div>
+          </div>
+        </div>
+        <div class="x-image">質問カード画像</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button class="btn-x" onclick="showStep(4)">
+          <span class="x-icon">𝕏</span>
+          Xでシェアしてみよう！
+        </button>
+        <button class="btn-ghost" onclick="showStep(4)">後でシェアする</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== STEP 4: Complete ===================== -->
+  <div class="step-panel" id="panel-4">
+    <div class="step-content">
+      <div class="complete-icon">✓</div>
+      <div class="complete-text">
+        <div class="main">シェア完了！</div>
+        <div class="sub">あなたのファンに質問が届きました。<br>回答が届いたらお知らせします。</div>
+      </div>
+
+      <div class="oshipon-msg">
+        <div class="oshipon-avatar">🐾</div>
+        <div class="oshipon-bubble-wrap">
+          <div class="oshipon-label">おしぽんから</div>
+          <div class="oshipon-bubble">
+            いつも活動がんばっていてえらいぽん！🎉<br>
+            ファンからの回答、楽しみに待っててぽん♪
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="showStep(1)">ホームへ戻る</button>
+    </div>
+  </div>
+
+</div><!-- /phone-frame -->
+
+<div class="footer-note">
+  ← Step ボタンで各画面を切り替えられます<br>
+  モーダルは推しの /home 初回ログイン時に表示されます
+</div>
+
+<script>
+  // ===================== STEP NAVIGATION =====================
+  let currentStep = 1;
+
+  function showStep(n) {
+    currentStep = n;
+    // panels
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + n).classList.add('active');
+    // nav buttons
+    document.querySelectorAll('.step-btn').forEach((b, i) => {
+      b.classList.toggle('active', i + 1 === n);
+    });
+    // indicator dots
+    for (let i = 1; i <= 4; i++) {
+      const d = document.getElementById('dot-' + i);
+      d.classList.remove('active', 'done');
+      if (i === n) d.classList.add('active');
+      else if (i < n) d.classList.add('done');
+    }
+  }
+
+  // ===================== SLIDE LOGIC =====================
+  const SLIDES = [
+    {
+      emoji: '🎉',
+      title: 'OSHIPOでこんなことができるよ',
+      points: [
+        { e: '💬', t: '毎日ファンに質問を届けられる' },
+        { e: '🏆', t: '回答が集まるとポイントがもらえる' },
+        { e: '🤝', t: 'ファンとの絆が毎日積み重なる' },
+      ]
+    },
+    {
+      emoji: '💌',
+      title: 'ファンからの回答が届くと...',
+      points: [
+        { e: '✨', t: 'ファンの気持ちや想いが直接届く' },
+        { e: '🎁', t: 'ポイントをギフトカードに交換できる' },
+        { e: '📈', t: '続けるほど絆のカレンダーが埋まる' },
+      ]
+    },
+    {
+      emoji: '❓',
+      title: 'まずは最初にファンに聞く\n質問を選んでみよう',
+      points: [
+        { e: '👇', t: 'テンプレートから好きな質問を選ぶだけ' },
+        { e: '✏️', t: '自分の言葉に変えることもできるよ' },
+        { e: '🚀', t: 'Xでシェアして最初のファンを集めよう' },
+      ]
+    }
+  ];
+  let slideIdx = 0;
+
+  function setSlide(i) {
+    slideIdx = i;
+    const s = SLIDES[i];
+    document.getElementById('slide-icon').textContent = s.emoji;
+    document.getElementById('slide-title').textContent = s.title;
+    const pts = document.getElementById('slide-points');
+    pts.innerHTML = s.points.map(p =>
+      `<div class="point-item"><span class="emoji">${p.e}</span><span class="text">${p.t}</span></div>`
+    ).join('');
+    for (let j = 0; j < 3; j++) {
+      document.getElementById('sdot-' + j).classList.toggle('active', j === i);
+    }
+    document.getElementById('slide-btn').textContent = (i === 2) ? '質問を選んでみよう →' : '次へ →';
+  }
+
+  function nextSlide() {
+    if (slideIdx < 2) {
+      setSlide(slideIdx + 1);
+    } else {
+      showStep(2);
+      slideIdx = 0;
+      setSlide(0);
+    }
+  }
+
+  // ===================== QUESTION SELECT =====================
+  let selectedQ = null;
+
+  function selectQ(el) {
+    document.querySelectorAll('.question-card').forEach(c => {
+      c.classList.remove('selected');
+      c.querySelector('.radio').textContent = '';
+    });
+    el.classList.add('selected');
+    el.querySelector('.radio').textContent = '✓';
+    selectedQ = el.querySelector('.q-text').textContent;
+    document.getElementById('q-submit-btn').disabled = false;
+    // update X post preview
+    document.getElementById('x-post-text').innerHTML =
+      selectedQ + '<br>ぜひ教えてね！<br><span class="x-hashtag">#OSHIPO</span>';
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSHIPO｜推しホーム（新規ユーザー）</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --orange-90: #fea714;
+  --orange-30: #ffdca1;
+  --orange-10: #ffedd0;
+  --orange-5: #fff6e7;
+  --gray-100: #414141;
+  --gray-60: #5f5f5f;
+  --gray-20: #bbbbbb;
+  --gray-10: #dbdbdb;
+  --gray-5: #ececec;
+  --text-high: #242424;
+  --grad-start: #ff9500;
+  --grad-end: #ef627f;
+  --accent-start: #ffcb0f;
+  --accent-end: #ff3f88;
+  --pink: #ff4886;
+}
+body {
+  font-family: "M PLUS Rounded 1c", "Hiragino Sans", sans-serif;
+  background: #e8e8e8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 40px;
+  min-height: 100vh;
+}
+
+/* ===== PHONE FRAME ===== */
+.phone {
+  width: 390px;
+  background: #f5f0eb;
+  border-radius: 44px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  overflow: hidden;
+  position: relative;
+}
+
+/* ===== STATUS BAR ===== */
+.status-bar {
+  background: #f5f0eb;
+  padding: 14px 24px 0;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 13px; font-weight: 700;
+}
+.status-bar .time { font-size: 15px; font-weight: 700; color: #111; }
+.status-icons { display: flex; gap: 6px; align-items: center; font-size: 12px; color: #111; }
+
+/* ===== APP HEADER ===== */
+.app-header {
+  background: #f5f0eb;
+  padding: 10px 16px 12px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo { display: flex; align-items: center; gap: 6px; }
+.logo .mascot { font-size: 22px; }
+.logo .name {
+  font-size: 18px; font-weight: 900; letter-spacing: -0.5px;
+  background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.logo .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: linear-gradient(to bottom, var(--accent-start), var(--accent-end));
+  margin-left: -2px; margin-top: -12px;
+}
+.header-right { display: flex; align-items: center; gap: 8px; }
+.pt-badge {
+  background: white; border: 2px solid var(--orange-90);
+  border-radius: 999px; padding: 4px 10px;
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 700; color: var(--orange-90);
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.pt-badge.pop { transform: scale(1.25); }
+.avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: linear-gradient(135deg, #b8d4f0, #d4b8f0);
+  border: 2px solid white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; overflow: hidden;
+}
+
+/* ===== SCROLL AREA ===== */
+.scroll-area {
+  overflow-y: auto;
+  padding: 0 0 80px;
+  max-height: 780px;
+}
+
+/* ===== PROFILE CARD ===== */
+.profile-card {
+  margin: 0 12px 4px;
+  background: white;
+  border-radius: 16px;
+  padding: 14px 16px;
+  border: 2px solid var(--orange-90);
+  box-shadow: 2px 4px 16px rgba(0,0,0,0.07);
+}
+.profile-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.profile-avatar {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: linear-gradient(135deg, #b8d4f0, #a8c8e8);
+  border: 2px solid #ddd; font-size: 30px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.profile-name { font-size: 16px; font-weight: 700; color: var(--grad-start); }
+.profile-handle { font-size: 12px; color: var(--gray-60); margin-top: 2px; }
+.profile-stats { display: flex; flex-direction: column; gap: 4px; }
+.stat-row {
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--gray-5); padding-bottom: 4px;
+}
+.stat-row:last-of-type { border-bottom: none; padding-bottom: 0; }
+.stat-label { font-size: 13px; color: var(--gray-60); }
+.stat-value { font-size: 13px; font-weight: 700; color: var(--orange-90); }
+.profile-link { text-align: center; margin-top: 8px; font-size: 12px; color: var(--orange-90); font-weight: 600; }
+
+/* ===== SECTION ===== */
+.section { padding: 16px 12px 0; }
+.section-title {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 16px; font-weight: 700; color: var(--gray-100);
+  margin-bottom: 10px;
+}
+.section-title .s-icon { font-size: 18px; }
+
+/* ===== BENEFIT CARDS ===== */
+.benefit-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.benefit-card {
+  background: white; border-radius: 14px; padding: 14px 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.benefit-icon-wrap {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--grad-start), var(--grad-end));
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.benefit-text { font-size: 12px; font-weight: 700; color: var(--gray-100); line-height: 1.4; }
+
+/* ===== PROPOSED QUESTION ===== */
+.proposed-q-card {
+  background: white; border-radius: 16px; overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+.proposed-q-header {
+  background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+  padding: 10px 14px; display: flex; align-items: center; gap: 6px;
+}
+.proposed-q-label { font-size: 11px; font-weight: 700; color: white; letter-spacing: 0.04em; }
+.proposed-q-badge {
+  background: rgba(255,255,255,0.25); border-radius: 999px; padding: 2px 8px;
+  font-size: 10px; font-weight: 700; color: white;
+}
+.proposed-q-body { padding: 16px 16px 14px; }
+.proposed-q-text { font-size: 16px; font-weight: 700; color: var(--text-high); line-height: 1.45; margin-bottom: 10px; }
+.proposed-q-note { font-size: 11px; color: var(--gray-60); line-height: 1.5; margin-bottom: 10px; }
+.proposed-q-pt-hint {
+  display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+  background: var(--orange-5); border: 1px solid var(--orange-30);
+  border-radius: 8px; padding: 7px 10px;
+  font-size: 11px; font-weight: 600; color: var(--gray-100); line-height: 1.4;
+}
+.proposed-q-pt-icon { font-size: 13px; }
+.proposed-q-pt-value {
+  font-size: 13px; font-weight: 900; color: var(--grad-start);
+}
+
+/* ===== CTA BUTTON ===== */
+.btn-cta {
+  width: 100%; height: 50px; border-radius: 999px;
+  background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+  border: none; color: white; font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: opacity 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-cta:disabled { opacity: 0.35; cursor: default; }
+.btn-cta-pt {
+  background: rgba(255,255,255,0.25);
+  border-radius: 999px; padding: 2px 8px;
+  font-size: 11px; font-weight: 700; color: white;
+  border: 1px solid rgba(255,255,255,0.4);
+}
+.btn-cta-wrap { padding: 12px 12px 0; }
+
+/* ===== MISSION CARD ===== */
+.mission-card {
+  background: white; border-radius: 16px; padding: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+}
+.mission-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+}
+.mission-title { font-size: 14px; font-weight: 700; color: var(--text-high); }
+.mission-subtitle { font-size: 11px; color: var(--gray-60); margin-top: 2px; }
+.mission-total-pt { font-size: 13px; font-weight: 700; color: var(--orange-90); text-align: right; }
+.mission-total-label { font-size: 10px; color: var(--gray-60); font-weight: 500; }
+
+/* ===== 全体進捗バー ===== */
+.mission-overall-progress { margin-bottom: 14px; }
+.mission-overall-bar {
+  height: 8px; border-radius: 999px;
+  background: var(--gray-5); overflow: hidden; margin-bottom: 4px;
+}
+.mission-overall-fill {
+  height: 100%; border-radius: 999px;
+  background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+  width: 0%; transition: width 0.5s ease;
+}
+.mission-overall-label {
+  display: flex; justify-content: space-between; font-size: 11px; color: var(--gray-60);
+}
+.mission-overall-label .completed { font-weight: 700; color: var(--grad-start); }
+
+/* ===== ミッショングループ ===== */
+.mission-group { margin-bottom: 10px; }
+.mission-group:last-child { margin-bottom: 0; }
+.mission-group-label {
+  font-size: 10px; font-weight: 700; color: var(--gray-60);
+  letter-spacing: 0.06em; margin-bottom: 5px; padding-left: 2px;
+  display: flex; align-items: center; gap: 4px;
+}
+.mission-group-desc {
+  font-size: 11px; color: var(--gray-60); font-weight: 500;
+  line-height: 1.5; margin-bottom: 6px; padding-left: 2px;
+}
+.mission-group-bar-wrap {
+  height: 3px; background: var(--gray-5); border-radius: 999px; overflow: hidden; margin-bottom: 6px;
+}
+.mission-group-bar-fill { height: 100%; border-radius: 999px; transition: width 0.5s ease; width: 0%; }
+.fill-share { background: linear-gradient(to right, #ff9500, #ffcb0f); }
+.fill-answer { background: linear-gradient(to right, #3b82f6, #06b6d4); }
+.fill-react { background: linear-gradient(to right, #ec4899, #ef627f); }
+
+/* ===== ミッションアイテム ===== */
+.mission-list { display: flex; flex-direction: column; gap: 5px; }
+.mission-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px; border-radius: 10px;
+  background: var(--gray-5);
+  transition: background 0.3s, border 0.3s, box-shadow 0.3s;
+  position: relative; overflow: hidden;
+}
+.mission-item.highlight {
+  background: linear-gradient(to right, #fff8e8, #fff2ed);
+  border: 1.5px solid var(--orange-30);
+}
+/* ★ 達成（受け取り待ち）状態 */
+.mission-item.achieved {
+  background: linear-gradient(135deg, #fffbe8, #fff5e0);
+  border: 2px solid var(--orange-90);
+  box-shadow: 0 0 0 3px rgba(254,167,20,0.15);
+  animation: achievedPulse 2s ease-in-out infinite;
+}
+@keyframes achievedPulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(254,167,20,0.15); }
+  50%       { box-shadow: 0 0 0 6px rgba(254,167,20,0.25); }
+}
+/* ★ 受け取り済み状態 */
+.mission-item.done {
+  background: var(--orange-5);
+  border: none; box-shadow: none; animation: none;
+}
+
+/* ===== チェックアイコン ===== */
+.mission-check {
+  width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid var(--gray-20);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: white; transition: all 0.3s;
+}
+.mission-item.achieved .mission-check {
+  background: var(--orange-90); border-color: var(--orange-90);
+  animation: spinStar 0.5s ease;
+}
+@keyframes spinStar {
+  0%   { transform: scale(0) rotate(-180deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+.mission-item.done .mission-check { background: var(--orange-90); border-color: var(--orange-90); }
+
+/* ===== ミッション情報エリア ===== */
+.mission-info { flex: 1; min-width: 0; }
+.mission-text { font-size: 12px; font-weight: 600; color: var(--gray-100); line-height: 1.35; }
+.mission-item.done .mission-text { color: var(--gray-60); text-decoration: line-through; }
+
+/* ===== ミッション内進捗バー ===== */
+.mission-sub-progress { margin-top: 5px; display: flex; align-items: center; gap: 6px; }
+.mission-sub-bar {
+  flex: 1; height: 4px; background: var(--gray-10); border-radius: 999px; overflow: hidden;
+}
+.mission-sub-fill {
+  height: 100%; border-radius: 999px; background: var(--orange-90); transition: width 0.4s ease;
+}
+.mission-sub-count { font-size: 10px; font-weight: 700; color: var(--gray-60); white-space: nowrap; }
+
+/* ===== ポイントバッジ / 受け取るボタン ===== */
+.mission-pt {
+  font-size: 11px; font-weight: 700; color: var(--orange-90);
+  background: var(--orange-10); border-radius: 6px;
+  padding: 2px 7px; white-space: nowrap; flex-shrink: 0;
+}
+.mission-item.done .mission-pt { color: var(--gray-60); background: var(--gray-5); }
+
+/* ★ 受け取るボタン */
+.btn-receive {
+  display: none;
+  align-items: center; justify-content: center; gap: 3px;
+  background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+  color: white; border: none; border-radius: 999px;
+  padding: 5px 12px; font-size: 11px; font-weight: 700;
+  cursor: pointer; white-space: nowrap; flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(255,149,0,0.4);
+  animation: receivePop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes receivePop {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.mission-item.achieved .btn-receive { display: flex; }
+.mission-item.achieved .mission-pt { display: none; }
+.mission-item.done .btn-receive { display: none; }
+
+/* ===== MISSION ACCORDION ===== */
+.mission-toggle-header {
+  cursor: pointer;
+  user-select: none;
+  justify-content: flex-start;
+  gap: 6px;
+}
+.mission-toggle-chevron {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--gray-60);
+  transition: transform 0.3s ease;
+}
+.mission-toggle-header.closed .mission-toggle-chevron {
+  transform: rotate(180deg);
+}
+.mission-badge-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--pink);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px white;
+  animation: badgePulse 1.5s ease-in-out infinite;
+}
+@keyframes badgePulse {
+  0%, 100% { box-shadow: 0 0 0 2px white, 0 0 0 4px rgba(255,72,134,0.25); }
+  50%       { box-shadow: 0 0 0 2px white, 0 0 0 6px rgba(255,72,134,0.4); }
+}
+.mission-card-wrap {
+  overflow: hidden;
+  max-height: 2000px;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+  opacity: 1;
+}
+.mission-card-wrap.collapsed {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  background: linear-gradient(135deg, #fff5e8, #fff0f3);
+  border-radius: 14px; padding: 24px 16px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;
+}
+.empty-state .mascot-img { font-size: 56px; }
+.empty-state .empty-title { font-size: 13px; font-weight: 700; color: var(--gray-100); line-height: 1.5; }
+.empty-state .empty-sub { font-size: 12px; color: var(--gray-60); line-height: 1.5; }
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+  position: sticky; bottom: 0; background: white;
+  border-top: 1px solid var(--gray-10); display: flex; padding: 8px 0 16px;
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  font-size: 10px; color: var(--gray-60); font-weight: 600; cursor: pointer;
+}
+.nav-item.active { color: var(--orange-90); }
+.nav-item .nav-icon { font-size: 20px; }
+.nav-badge {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--pink);
+  position: absolute; top: -2px; right: -2px;
+}
+.nav-icon-wrap { position: relative; display: inline-block; }
+
+/* ===== TOAST ===== */
+#toast {
+  position: fixed; top: 24px; left: 50%; transform: translateX(-50%) translateY(-80px);
+  background: var(--text-high); color: white;
+  border-radius: 999px; padding: 10px 20px;
+  font-size: 13px; font-weight: 700; white-space: nowrap;
+  z-index: 9999;
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s;
+  opacity: 0; pointer-events: none;
+}
+#toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* ===== REWARD POPUP OVERLAY ===== */
+#reward-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.55);
+  display: flex; align-items: flex-end; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+  backdrop-filter: blur(2px);
+}
+#reward-overlay.open { opacity: 1; pointer-events: auto; }
+
+#reward-modal {
+  width: min(390px, 100%);
+  background: white;
+  border-radius: 28px 28px 0 0;
+  padding: 0 0 40px;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.34,1.2,0.64,1);
+  position: relative; overflow: hidden;
+}
+#reward-overlay.open #reward-modal { transform: translateY(0); }
+
+/* モーダルヘッダー（グラデーション） */
+.reward-modal-header {
+  background: linear-gradient(135deg, var(--grad-start), var(--grad-end));
+  padding: 32px 24px 24px;
+  display: flex; flex-direction: column; align-items: center;
+  position: relative; overflow: hidden;
+}
+.reward-modal-label {
+  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.8);
+  letter-spacing: 0.1em; margin-bottom: 6px;
+}
+.reward-modal-mission-name {
+  font-size: 16px; font-weight: 700; color: white;
+  text-align: center; line-height: 1.4;
+}
+
+/* ポイント表示 */
+.reward-pt-area {
+  padding: 24px 24px 0;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.reward-pt-label { font-size: 13px; color: var(--gray-60); font-weight: 600; }
+.reward-pt-value {
+  font-size: 52px; font-weight: 900; line-height: 1;
+  background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  animation: ptPop 0.5s 0.2s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes ptPop {
+  0% { transform: scale(0.3); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* マスコットメッセージ */
+.reward-mascot-area {
+  padding: 16px 20px 0;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.reward-mascot-icon { font-size: 44px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+.reward-bubble {
+  background: var(--orange-5); border-radius: 0 14px 14px 14px;
+  padding: 10px 14px; border: 1px solid var(--orange-30);
+  font-size: 12px; color: var(--gray-100); font-weight: 600; line-height: 1.6;
+  position: relative;
+}
+.reward-bubble::before {
+  content: '';
+  position: absolute; left: -7px; top: 10px;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 8px solid var(--orange-30);
+}
+
+/* 受け取るボタン */
+.reward-confirm-btn {
+  display: block; width: calc(100% - 48px); margin: 20px auto 0;
+  height: 52px; border-radius: 999px;
+  background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+  border: none; color: white; font-size: 16px; font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(255,149,0,0.4);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.reward-confirm-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 10px rgba(255,149,0,0.3);
+}
+
+/* ===== CONFETTI ===== */
+.confetti-wrap {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+}
+.confetti-piece {
+  position: absolute; width: 8px; height: 8px; border-radius: 2px;
+  animation: confettiFall 1.6s ease-in forwards;
+  opacity: 0;
+}
+@keyframes confettiFall {
+  0%   { transform: translateY(-20px) rotate(0deg);   opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateY(260px) rotate(720deg); opacity: 0; }
+}
+
+/* ===== DEMO CONTROLS (outside phone) ===== */
+.demo-controls {
+  margin-top: 20px;
+  background: white; border-radius: 16px;
+  padding: 16px 20px;
+  width: 390px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+.demo-title {
+  font-size: 12px; font-weight: 700; color: var(--gray-60);
+  margin-bottom: 10px; letter-spacing: 0.05em;
+}
+.demo-btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.demo-btn {
+  padding: 8px 10px; border-radius: 8px; border: none;
+  background: var(--gray-5); color: var(--gray-100);
+  font-size: 11px; font-weight: 700; cursor: pointer;
+  text-align: left; line-height: 1.4;
+  transition: background 0.15s;
+}
+.demo-btn:hover { background: var(--orange-10); }
+.demo-btn:disabled { opacity: 0.35; cursor: default; }
+.demo-btn .demo-btn-pt { color: var(--orange-90); font-size: 10px; display: block; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<!-- ===== TOAST ===== -->
+<div id="toast"></div>
+
+<!-- ===== REWARD POPUP ===== -->
+<div id="reward-overlay" onclick="handleOverlayClick(event)">
+  <div id="reward-modal">
+    <!-- Confetti -->
+    <div class="confetti-wrap" id="confetti-wrap"></div>
+
+    <!-- Header -->
+    <div class="reward-modal-header">
+      <div class="reward-modal-label">🎯 ミッション達成！</div>
+      <div class="reward-modal-mission-name" id="reward-mission-name">最初の質問をXでシェアする</div>
+    </div>
+
+    <!-- Points -->
+    <div class="reward-pt-area">
+      <div class="reward-pt-label">獲得ポイント</div>
+      <div class="reward-pt-value" id="reward-pt-value">+300pt</div>
+    </div>
+
+    <!-- Mascot -->
+    <div class="reward-mascot-area">
+      <div class="reward-mascot-icon">🐾</div>
+      <div class="reward-bubble" id="reward-bubble">
+        すごいぽん！🎉<br>
+        ポイントを受け取ってほしいぽん♪<br>
+        これからも応援しているぽん！
+      </div>
+    </div>
+
+    <!-- Confirm button -->
+    <button class="reward-confirm-btn" id="reward-confirm-btn" onclick="collectReward()">
+      受け取る！
+    </button>
+  </div>
+</div>
+
+<!-- ===== PHONE ===== -->
+<div class="phone">
+  <div class="status-bar">
+    <span class="time">9:41</span>
+    <div class="status-icons"><span>▌▌▌</span><span>WiFi</span><span>🔋</span></div>
+  </div>
+  <div class="app-header">
+    <div class="logo">
+      <span class="mascot">🐾</span>
+      <span class="name">OSHIPO</span>
+      <span class="dot"></span>
+    </div>
+    <div class="header-right">
+      <div class="pt-badge" id="pt-badge">🪙 0P</div>
+      <div class="avatar">🧑‍🎤</div>
+    </div>
+  </div>
+
+  <div class="scroll-area" id="scroll">
+
+    <!-- Profile -->
+    <div class="profile-card">
+      <div class="profile-top">
+        <div class="profile-avatar">🧑‍🎤</div>
+        <div>
+          <div class="profile-name">てんちゃん@Youtube</div>
+          <div class="profile-handle">@tenchan</div>
+        </div>
+      </div>
+      <div class="profile-stats">
+        <div class="stat-row">
+          <span class="stat-label">あなたを登録しているファン</span>
+          <span class="stat-value">0人</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">ファンからの総回答数</span>
+          <span class="stat-value">0回</span>
+        </div>
+      </div>
+      <div class="profile-link">ファンからのすべての回答を見る ›</div>
+    </div>
+
+    <!-- Benefits -->
+    <div class="section">
+      <div class="section-title"><span class="s-icon">✨</span>OSHIPOでできること</div>
+      <div class="benefit-cards">
+        <div class="benefit-card">
+          <div class="benefit-icon-wrap">💬</div>
+          <div class="benefit-text">ファンから温かいメッセージが届くよ</div>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon-wrap">🏆</div>
+          <div class="benefit-text">メッセージが届くとポイントが貯まるよ</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Proposed Question -->
+    <div class="section">
+      <div class="section-title"><span class="s-icon">💬</span>最初にファンに聞いてみよう！</div>
+      <div class="proposed-q-card">
+        <div class="proposed-q-header">
+          <span class="proposed-q-label">OSHIPOからの提案質問</span>
+          <span class="proposed-q-badge">新規ユーザー限定</span>
+        </div>
+        <div class="proposed-q-body">
+          <div class="proposed-q-text">推しに言われてみたい一言を教えて！</div>
+          <div class="proposed-q-note">この質問をXでシェアするとファンから回答が届きます</div>
+          <div class="proposed-q-pt-hint">
+            <span class="proposed-q-pt-icon">🎯</span>
+            チュートリアルミッション達成で
+            <span class="proposed-q-pt-value">+300pt</span>
+            もらえる！
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="btn-cta-wrap">
+      <button class="btn-cta" id="share-btn" onclick="doShare()">
+        <span class="x-icon">𝕏</span>
+        質問をシェアして回答を募集する
+        <span class="btn-cta-pt">+300pt</span>
+      </button>
+    </div>
+
+    <!-- Missions -->
+    <div class="section">
+      <div class="section-title mission-toggle-header" onclick="toggleMission()">
+        <span class="s-icon">🎯</span>
+        チュートリアルミッション
+        <span class="mission-badge-dot" id="mission-badge-dot" style="display:none"></span>
+        <span class="mission-toggle-chevron" id="mission-chevron">▲</span>
+      </div>
+      <div class="mission-card-wrap" id="mission-card-wrap">
+      <div class="mission-card">
+
+        <div class="mission-header">
+          <div>
+            <div class="mission-title">ミッション達成でポイントGET！</div>
+            <div class="mission-subtitle" id="mission-count-label">0 / 9 完了</div>
+          </div>
+          <div>
+            <div class="mission-total-label">合計獲得可能</div>
+            <div class="mission-total-pt">2,600pt</div>
+          </div>
+        </div>
+
+        <div class="mission-overall-progress">
+          <div class="mission-overall-bar">
+            <div class="mission-overall-fill" id="overall-fill"></div>
+          </div>
+          <div class="mission-overall-label">
+            <span><span class="completed" id="completed-count">0</span> / 9 達成</span>
+            <span id="earned-pt">獲得済み 0pt</span>
+          </div>
+        </div>
+
+        <!-- シェア -->
+        <div class="mission-group">
+          <div class="mission-group-label"><span>𝕏</span> シェア</div>
+          <div class="mission-group-desc">Xでシェアするとファンから温かい回答が届くぽん！</div>
+          <div class="mission-group-bar-wrap">
+            <div class="mission-group-bar-fill fill-share" id="group-share-fill"></div>
+          </div>
+          <div class="mission-list">
+            <div class="mission-item highlight" id="m0">
+              <div class="mission-check" id="m0-check">→</div>
+              <div class="mission-info"><div class="mission-text">最初の質問をXでシェアする</div></div>
+              <div class="mission-pt" id="m0-pt">+300pt</div>
+              <button class="btn-receive" onclick="openReward('m0')">受け取る 🎁</button>
+            </div>
+            <div class="mission-item" id="m3">
+              <div class="mission-check" id="m3-check"></div>
+              <div class="mission-info">
+                <div class="mission-text">今日の質問を3回シェアする</div>
+                <div class="mission-sub-progress">
+                  <div class="mission-sub-bar"><div class="mission-sub-fill" id="m3-bar" style="width:0%"></div></div>
+                  <div class="mission-sub-count" id="m3-count">0 / 3</div>
+                </div>
+              </div>
+              <div class="mission-pt" id="m3-pt">+200pt</div>
+              <button class="btn-receive" onclick="openReward('m3')">受け取る 🎁</button>
+            </div>
+            <div class="mission-item" id="m6">
+              <div class="mission-check" id="m6-check"></div>
+              <div class="mission-info">
+                <div class="mission-text">今日の質問を5回シェアする</div>
+                <div class="mission-sub-progress">
+                  <div class="mission-sub-bar"><div class="mission-sub-fill" id="m6-bar" style="width:0%"></div></div>
+                  <div class="mission-sub-count" id="m6-count">0 / 5</div>
+                </div>
+              </div>
+              <div class="mission-pt" id="m6-pt">+200pt</div>
+              <button class="btn-receive" onclick="openReward('m6')">受け取る 🎁</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 回答受取 -->
+        <div class="mission-group">
+          <div class="mission-group-label"><span>💬</span> 回答受取</div>
+          <div class="mission-group-desc">ファンの回答を受け取るとポイントが貯まっていくぽん！</div>
+          <div class="mission-group-bar-wrap">
+            <div class="mission-group-bar-fill fill-answer" id="group-answer-fill"></div>
+          </div>
+          <div class="mission-list">
+            <div class="mission-item" id="m1">
+              <div class="mission-check" id="m1-check"></div>
+              <div class="mission-info"><div class="mission-text">ファンからの最初の回答を受け取る</div></div>
+              <div class="mission-pt" id="m1-pt">+300pt</div>
+              <button class="btn-receive" onclick="openReward('m1')">受け取る 🎁</button>
+            </div>
+            <div class="mission-item" id="m4">
+              <div class="mission-check" id="m4-check"></div>
+              <div class="mission-info">
+                <div class="mission-text">ファンの回答を3件受け取る</div>
+                <div class="mission-sub-progress">
+                  <div class="mission-sub-bar"><div class="mission-sub-fill" id="m4-bar" style="width:0%"></div></div>
+                  <div class="mission-sub-count" id="m4-count">0 / 3</div>
+                </div>
+              </div>
+              <div class="mission-pt" id="m4-pt">+200pt</div>
+              <button class="btn-receive" onclick="openReward('m4')">受け取る 🎁</button>
+            </div>
+            <div class="mission-item" id="m7">
+              <div class="mission-check" id="m7-check"></div>
+              <div class="mission-info">
+                <div class="mission-text">ファンの回答を5件受け取る</div>
+                <div class="mission-sub-progress">
+                  <div class="mission-sub-bar"><div class="mission-sub-fill" id="m7-bar" style="width:0%"></div></div>
+                  <div class="mission-sub-count" id="m7-count">0 / 5</div>
+                </div>
+              </div>
+              <div class="mission-pt" id="m7-pt">+500pt</div>
+              <button class="btn-receive" onclick="openReward('m7')">受け取る 🎁</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- リアクション -->
+        <div class="mission-group">
+          <div class="mission-group-label"><span>❤️</span> リアクション</div>
+          <div class="mission-group-desc">回答にリアクションを押すとあなたが見たことがファンに伝わるぽん！</div>
+          <div class="mission-group-bar-wrap">
+            <div class="mission-group-bar-fill fill-react" id="group-react-fill"></div>
+          </div>
+          <div class="mission-list">
+            <div class="mission-item" id="m2">
+              <div class="mission-check" id="m2-check"></div>
+              <div class="mission-info"><div class="mission-text">ファンの回答に1回リアクションする</div></div>
+              <div class="mission-pt" id="m2-pt">+200pt</div>
+              <button class="btn-receive" onclick="openReward('m2')">受け取る 🎁</button>
+            </div>
+            <div class="mission-item" id="m5">
+              <div class="mission-check" id="m5-check"></div>
+              <div class="mission-info">
+                <div class="mission-text">ファンの回答に3回リアクションする</div>
+                <div class="mission-sub-progress">
+                  <div class="mission-sub-bar"><div class="mission-sub-fill" id="m5-bar" style="width:0%"></div></div>
+                  <div class="mission-sub-count" id="m5-count">0 / 3</div>
+                </div>
+              </div>
+              <div class="mission-pt" id="m5-pt">+200pt</div>
+              <button class="btn-receive" onclick="openReward('m5')">受け取る 🎁</button>
+            </div>
+            <div class="mission-item" id="m8">
+              <div class="mission-check" id="m8-check"></div>
+              <div class="mission-info">
+                <div class="mission-text">ファンの回答に5回リアクションする</div>
+                <div class="mission-sub-progress">
+                  <div class="mission-sub-bar"><div class="mission-sub-fill" id="m8-bar" style="width:0%"></div></div>
+                  <div class="mission-sub-count" id="m8-count">0 / 5</div>
+                </div>
+              </div>
+              <div class="mission-pt" id="m8-pt">+500pt</div>
+              <button class="btn-receive" onclick="openReward('m8')">受け取る 🎁</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /mission-card -->
+      </div><!-- /mission-card-wrap -->
+    </div>
+
+    <!-- Empty state -->
+    <div class="section" style="padding-bottom:16px;">
+      <div class="section-title"><span class="s-icon">🐾</span>新着のファンからの回答</div>
+      <div class="empty-state">
+        <div class="mascot-img">🫧</div>
+        <div class="empty-title">新着の回答がまだきてないぽん。</div>
+        <div class="empty-sub">今日の質問をシェアして<br>回答を募集してみるぽん！</div>
+      </div>
+    </div>
+
+  </div><!-- /scroll-area -->
+
+  <div class="bottom-nav">
+    <div class="nav-item active"><span class="nav-icon">🏠</span>HOME</div>
+    <div class="nav-item"><div class="nav-icon-wrap"><span class="nav-icon">💬</span><div class="nav-badge"></div></div>回答</div>
+    <div class="nav-item"><span class="nav-icon">⭐</span>貯める</div>
+    <div class="nav-item"><span class="nav-icon">🎁</span>交換する</div>
+  </div>
+</div>
+
+<!-- ===== DEMO CONTROLS ===== -->
+<div class="demo-controls">
+  <div class="demo-title">🎮 デモ操作パネル（ミッション達成をシミュレート）</div>
+  <div class="demo-btn-grid">
+    <button class="demo-btn" id="demo-m0" onclick="achieveMission('m0')">
+      最初の質問をシェアする
+      <span class="demo-btn-pt">+300pt</span>
+    </button>
+    <button class="demo-btn" id="demo-m1" onclick="achieveMission('m1')">
+      最初の回答を受け取る
+      <span class="demo-btn-pt">+300pt</span>
+    </button>
+    <button class="demo-btn" id="demo-m2" onclick="achieveMission('m2')">
+      1回リアクションする
+      <span class="demo-btn-pt">+200pt</span>
+    </button>
+    <button class="demo-btn" id="demo-m3" onclick="achieveMission('m3')">
+      3回シェアする
+      <span class="demo-btn-pt">+200pt</span>
+    </button>
+    <button class="demo-btn" id="demo-m4" onclick="achieveMission('m4')">
+      回答3件受け取る
+      <span class="demo-btn-pt">+200pt</span>
+    </button>
+    <button class="demo-btn" id="demo-m5" onclick="achieveMission('m5')">
+      3回リアクションする
+      <span class="demo-btn-pt">+200pt</span>
+    </button>
+    <button class="demo-btn" id="demo-m6" onclick="achieveMission('m6')">
+      5回シェアする
+      <span class="demo-btn-pt">+200pt</span>
+    </button>
+    <button class="demo-btn" id="demo-m7" onclick="achieveMission('m7')">
+      回答5件受け取る
+      <span class="demo-btn-pt">+500pt</span>
+    </button>
+    <button class="demo-btn" id="demo-m8" onclick="achieveMission('m8')">
+      5回リアクションする
+      <span class="demo-btn-pt">+500pt</span>
+    </button>
+  </div>
+</div>
+
+<script>
+// ===== アコーディオン =====
+let missionOpen = true;
+function toggleMission() {
+  missionOpen = !missionOpen;
+  const wrap = document.getElementById('mission-card-wrap');
+  const header = document.querySelector('.mission-toggle-header');
+  wrap.classList.toggle('collapsed', !missionOpen);
+  header.classList.toggle('closed', !missionOpen);
+}
+
+// ===== バッジ更新（受け取り待ちがあれば赤ポチ表示）=====
+let achievedCount = 0;
+function updateBadge() {
+  const dot = document.getElementById('mission-badge-dot');
+  dot.style.display = achievedCount > 0 ? 'inline-block' : 'none';
+}
+
+// ===== ミッション定義 =====
+const MISSIONS = {
+  m0: { pt: 300,  name: '最初の質問をXでシェアする',       bubble: 'シェアしてくれてありがとうぽん！🎉\nファンからの回答が届くの楽しみにしてるぽん♪' },
+  m1: { pt: 300,  name: 'ファンからの最初の回答を受け取る', bubble: '初めての回答が届いたぽん！🥹\nファンの気持ち、しっかり受け取ってほしいぽん！' },
+  m2: { pt: 200,  name: 'ファンの回答に1回リアクションする', bubble: 'リアクションしてくれたぽん！❤️\nファンも絶対うれしいぽん♪' },
+  m3: { pt: 200,  name: '今日の質問を3回シェアする',        bubble: '3回もシェアしてくれてすごいぽん！✨\nファンへの熱い気持ち伝わってるぽん！' },
+  m4: { pt: 200,  name: 'ファンの回答を3件受け取る',        bubble: '回答が3件届いたぽん！💬\nどんどんファンとつながっているぽん！' },
+  m5: { pt: 200,  name: 'ファンの回答に3回リアクションする', bubble: '3回リアクションしてくれたぽん！🎊\nファンとの絆が深まっているぽん♪' },
+  m6: { pt: 200,  name: '今日の質問を5回シェアする',        bubble: '5回シェアは本当にすごいぽん！🔥\nたくさんのファンに届いているぽん！' },
+  m7: { pt: 500,  name: 'ファンの回答を5件受け取る',        bubble: '回答が5件も！人気者ぽん！🌟\nこれからもっとたくさん届くぽん！' },
+  m8: { pt: 500,  name: 'ファンの回答に5回リアクションする', bubble: '5回リアクション達成ぽん！💖\nあなたの優しさ、ファンに伝わってるぽん！' },
+};
+
+let totalPt = 0;
+let completedMissions = 0;
+const TOTAL_MISSIONS = 9;
+
+let pendingRewardId = null; // 現在ポップアップ表示中のmission id
+
+// ===== ミッション「達成」状態へ =====
+function achieveMission(id) {
+  const el = document.getElementById(id);
+  if (!el || el.classList.contains('achieved') || el.classList.contains('done')) return;
+
+  el.classList.remove('highlight');
+  el.classList.add('achieved');
+  document.getElementById(id + '-check').textContent = '✦';
+
+  // デモボタン無効化
+  const demoBtn = document.getElementById('demo-' + id);
+  if (demoBtn) demoBtn.disabled = true;
+
+  achievedCount++;
+  updateBadge();
+
+  showToast('🎯 ミッション達成！「受け取る」を押してぽん');
+}
+
+// ===== 報酬ポップアップを開く =====
+function openReward(id) {
+  const m = MISSIONS[id];
+  if (!m) return;
+  pendingRewardId = id;
+
+  document.getElementById('reward-mission-name').textContent = m.name;
+  document.getElementById('reward-pt-value').textContent = '+' + m.pt.toLocaleString() + 'pt';
+  document.getElementById('reward-bubble').innerHTML = m.bubble.replace(/\n/g, '<br>');
+
+  // confetti生成
+  spawnConfetti();
+
+  // ポップアップを開く
+  const overlay = document.getElementById('reward-overlay');
+  overlay.classList.add('open');
+
+  // ptアニメーション再生のためリセット
+  const ptEl = document.getElementById('reward-pt-value');
+  ptEl.style.animation = 'none';
+  ptEl.offsetHeight; // reflow
+  ptEl.style.animation = '';
+}
+
+// ===== 報酬を受け取る（確定）=====
+function collectReward() {
+  if (!pendingRewardId) return;
+  const id = pendingRewardId;
+  const m = MISSIONS[id];
+
+  // ポップアップを閉じる
+  document.getElementById('reward-overlay').classList.remove('open');
+  pendingRewardId = null;
+
+  // done状態へ
+  const el = document.getElementById(id);
+  el.classList.remove('achieved');
+  el.classList.add('done');
+  document.getElementById(id + '-check').textContent = '✓';
+
+  // バッジ更新
+  achievedCount = Math.max(0, achievedCount - 1);
+  updateBadge();
+
+  // ポイント加算
+  totalPt += m.pt;
+  completedMissions++;
+  updateOverallProgress();
+  updateGroupBars(id);
+
+  // pt badge ぴょんアニメ
+  const badge = document.getElementById('pt-badge');
+  badge.textContent = '🪙 ' + totalPt.toLocaleString() + 'P';
+  badge.classList.add('pop');
+  setTimeout(() => badge.classList.remove('pop'), 400);
+
+  showToast('🎉 +' + m.pt.toLocaleString() + 'pt 獲得！');
+}
+
+// ===== オーバーレイ外クリックで閉じる =====
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('reward-overlay')) {
+    document.getElementById('reward-overlay').classList.remove('open');
+    pendingRewardId = null;
+  }
+}
+
+// ===== 全体進捗更新 =====
+function updateOverallProgress() {
+  const pct = (completedMissions / TOTAL_MISSIONS) * 100;
+  document.getElementById('overall-fill').style.width = pct + '%';
+  document.getElementById('completed-count').textContent = completedMissions;
+  document.getElementById('mission-count-label').textContent = completedMissions + ' / ' + TOTAL_MISSIONS + ' 完了';
+  document.getElementById('earned-pt').textContent = '獲得済み ' + totalPt.toLocaleString() + 'pt';
+}
+
+// ===== グループ進捗バー更新 =====
+const groupMap = {
+  m0: 'share', m3: 'share', m6: 'share',
+  m1: 'answer', m4: 'answer', m7: 'answer',
+  m2: 'react', m5: 'react', m8: 'react',
+};
+const groupDoneCount = { share: 0, answer: 0, react: 0 };
+
+function updateGroupBars(id) {
+  const group = groupMap[id];
+  if (!group) return;
+  groupDoneCount[group]++;
+  const pct = (groupDoneCount[group] / 3) * 100;
+  document.getElementById('group-' + group + '-fill').style.width = pct + '%';
+}
+
+// ===== シェアボタン =====
+let shareCount = 0;
+function doShare() {
+  shareCount++;
+  if (shareCount === 1) {
+    achieveMission('m0');
+    document.getElementById('m3-bar').style.width = '33%';
+    document.getElementById('m3-count').textContent = '1 / 3';
+    document.getElementById('m6-bar').style.width = '20%';
+    document.getElementById('m6-count').textContent = '1 / 5';
+    document.getElementById('share-btn').innerHTML = '<span>𝕏</span> あと2回シェアして +200pt GETしよう！';
+    document.getElementById('demo-m0').disabled = true;
+  } else if (shareCount === 2) {
+    document.getElementById('m3-bar').style.width = '66%';
+    document.getElementById('m3-count').textContent = '2 / 3';
+    document.getElementById('m6-bar').style.width = '40%';
+    document.getElementById('m6-count').textContent = '2 / 5';
+    document.getElementById('share-btn').innerHTML = '<span>𝕏</span> あと1回シェアして +200pt GETしよう！';
+  } else if (shareCount === 3) {
+    document.getElementById('m3-bar').style.width = '100%';
+    document.getElementById('m3-count').textContent = '3 / 3';
+    document.getElementById('m6-bar').style.width = '60%';
+    document.getElementById('m6-count').textContent = '3 / 5';
+    achieveMission('m3');
+    document.getElementById('demo-m3').disabled = true;
+    document.getElementById('share-btn').innerHTML = '<span>𝕏</span> あと2回シェアして +200pt GETしよう！';
+  } else if (shareCount === 4) {
+    document.getElementById('m6-bar').style.width = '80%';
+    document.getElementById('m6-count').textContent = '4 / 5';
+    document.getElementById('share-btn').innerHTML = '<span>𝕏</span> あと1回シェアして +200pt GETしよう！';
+  } else if (shareCount >= 5) {
+    document.getElementById('m6-bar').style.width = '100%';
+    document.getElementById('m6-count').textContent = '5 / 5';
+    achieveMission('m6');
+    document.getElementById('demo-m6').disabled = true;
+    document.getElementById('share-btn').innerHTML = '<span>𝕏</span> シェアミッション全達成！✨';
+    document.getElementById('share-btn').disabled = true;
+  }
+}
+
+// ===== TOAST =====
+let toastTimer;
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
+}
+
+// ===== CONFETTI =====
+const CONFETTI_COLORS = ['#ff9500','#ef627f','#ffcb0f','#ff3f88','#4ade80','#60a5fa','#f472b6'];
+function spawnConfetti() {
+  const wrap = document.getElementById('confetti-wrap');
+  wrap.innerHTML = '';
+  for (let i = 0; i < 28; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = [
+      `left:${Math.random()*100}%`,
+      `top:${-10 - Math.random()*20}px`,
+      `background:${CONFETTI_COLORS[i % CONFETTI_COLORS.length]}`,
+      `width:${6 + Math.random()*6}px`,
+      `height:${6 + Math.random()*6}px`,
+      `border-radius:${Math.random() > 0.5 ? '50%' : '2px'}`,
+      `animation-delay:${Math.random()*0.6}s`,
+      `animation-duration:${1.2 + Math.random()*0.8}s`,
+    ].join(';');
+    wrap.appendChild(el);
+  }
+}
+</script>
+</body>
+</html>
