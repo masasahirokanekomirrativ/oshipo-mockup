@@ -202,14 +202,26 @@ body {
 }
 .tutorial-card-header {
   background: linear-gradient(135deg, #1a1a2e, #2d1b4e);
-  padding: 12px 14px; display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px 10px; display: flex; flex-direction: column; gap: 8px;
 }
+.tutorial-header-top { display: flex; align-items: center; justify-content: space-between; }
 .tutorial-label { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.7); letter-spacing: 0.1em; text-transform: uppercase; }
 .tutorial-step-dots { display: flex; gap: 5px; align-items: center; }
 .step-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.25); transition: all 0.3s; }
 .step-dot.active { background: white; width: 20px; border-radius: 4px; }
 .step-dot.done { background: var(--orange-90); }
 .tutorial-step-text { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.8); }
+/* reward progress strip */
+.tutorial-reward-strip { display: flex; align-items: center; gap: 8px; }
+.tutorial-reward-pts {
+  font-size: 11px; font-weight: 700; white-space: nowrap;
+  color: rgba(255,255,255,0.55);
+}
+.tutorial-reward-pts strong { color: #fea714; font-size: 13px; }
+.tutorial-reward-bar-wrap { flex: 1; height: 5px; background: rgba(255,255,255,0.15); border-radius: 3px; overflow: hidden; }
+.tutorial-reward-bar-fill { height: 100%; background: linear-gradient(90deg, #ff9500, #ef627f); border-radius: 3px; transition: width 0.6s cubic-bezier(.4,0,.2,1); }
+.tutorial-reward-total { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.55); white-space: nowrap; }
+.tutorial-reward-total span { color: #fea714; }
 
 .tutorial-body { padding: 14px 14px 12px; }
 .tutorial-task-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
@@ -641,6 +653,9 @@ function renderTutorial() {
   if (state >= 6) d[3] = ' done'; else if (state === 4 || state === 5) d[3] = ' active';
   if (state >= 8) d[4] = ' done'; else if (state === 6 || state === 7) d[4] = ' active';
 
+  var earnedPt = state >= 8 ? 1100 : state >= 6 ? 900 : state >= 4 ? 600 : state >= 2 ? 300 : 0;
+  var rewardPct = Math.round(earnedPt / 1100 * 100);
+
   var stepNum, iconClass, iconEmoji, taskTitle, taskSub, tipsKey, statusHtml;
 
   if (state === 0 || state === 1) {
@@ -731,15 +746,24 @@ function renderTutorial() {
   c.innerHTML = `
     <div class="tutorial-card">
       <div class="tutorial-card-header">
-        <div class="tutorial-label">チュートリアル</div>
-        <div class="tutorial-step-dots">
-          <span class="step-dot${d[0]}"></span>
-          <span class="step-dot${d[1]}"></span>
-          <span class="step-dot${d[2]}"></span>
-          <span class="step-dot${d[3]}"></span>
-          <span class="step-dot${d[4]}"></span>
+        <div class="tutorial-header-top">
+          <div class="tutorial-label">チュートリアル</div>
+          <div class="tutorial-step-dots">
+            <span class="step-dot${d[0]}"></span>
+            <span class="step-dot${d[1]}"></span>
+            <span class="step-dot${d[2]}"></span>
+            <span class="step-dot${d[3]}"></span>
+            <span class="step-dot${d[4]}"></span>
+          </div>
+          <div class="tutorial-step-text">Step ${stepNum}</div>
         </div>
-        <div class="tutorial-step-text">Step ${stepNum}</div>
+        <div class="tutorial-reward-strip">
+          <div class="tutorial-reward-pts">${earnedPt > 0 ? `<strong>${earnedPt}pt</strong> 獲得済み` : '🎁 全達成で'}</div>
+          <div class="tutorial-reward-bar-wrap">
+            <div class="tutorial-reward-bar-fill" style="width:${rewardPct}%"></div>
+          </div>
+          <div class="tutorial-reward-total">合計 <span>1,100pt</span></div>
+        </div>
       </div>
       <div class="tutorial-body">
         <div class="tutorial-prestep">
