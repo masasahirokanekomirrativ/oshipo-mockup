@@ -606,7 +606,7 @@ var tipsData = {
   share: {
     mascot: '📢',
     title: 'シェアするとどうなるの？',
-    body: 'Xでシェアすると、あなたを登録しているファンに<strong>質問が届くぽん！</strong><br><br>ファンが回答してくれると、どんなふうに思っているかがリアルにわかってとっても嬉しいよ🌟<br><br>まずは1回シェアしてみるぽん！'
+    body: 'Xでシェアすると、ファンに「OSHIPOをはじめたよ！」が届くぽん🎉<br><br>ファンが回答してくれると、<strong>ファンの意外な想いや本音</strong>を知ることができるかも✨<br><br>さらに回答が届くたびにポイントGETのチャンス！活動の糧にしていこうぽん🌟'
   },
   answer: {
     mascot: '💬',
@@ -701,7 +701,7 @@ function renderTutorial() {
     iconClass = state === 3 ? 'done-icon' : 'share';
     iconEmoji = state === 3 ? '✅' : '📢';
     taskTitle = '最初の質問をXでシェアしよう';
-    taskSub = 'シェアするとファンから温かい回答が届くぽん！';
+    taskSub = 'ファンに「OSHIPOをはじめたよ！」と伝えて、ファンの想いを受け取ってみよう 🎉';
     tipsKey = 'share';
     statusHtml = state === 2
       ? `<div class="tutorial-waiting"><span class="pulse"></span>上のシェアボタンを押してみよう 👆</div>`
