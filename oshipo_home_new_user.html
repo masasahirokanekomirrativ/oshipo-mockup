@@ -380,6 +380,12 @@ body {
 .btn-react.active { background: #fff0f5; color: var(--pink); }
 .btn-react.bounce { animation: reactionBounce 0.4s cubic-bezier(0.34,1.56,0.64,1); }
 @keyframes reactionBounce { 0%{transform:scale(1)} 50%{transform:scale(1.3)} 100%{transform:scale(1)} }
+.btn-share-answer {
+  display: flex; align-items: center; gap: 4px;
+  background: linear-gradient(135deg, #ff9500, #ef627f); border: none; border-radius: 999px;
+  padding: 6px 14px; font-size: 12px; font-weight: 700; color: white; cursor: pointer; transition: all 0.2s;
+}
+.btn-share-answer:disabled { background: var(--gray-5); color: var(--gray-60); }
 
 /* ===== EMPTY STATE ===== */
 .empty-state {
@@ -462,12 +468,19 @@ body {
 }
 .complete-emoji { font-size: 40px; margin-bottom: 8px; }
 .complete-title { font-size: 16px; font-weight: 700; color: white; margin-bottom: 4px; }
-.complete-sub { font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 14px; line-height: 1.5; }
+.complete-sub { font-size: 12px; color: rgba(255,255,255,0.7); margin: 10px 0 14px; line-height: 1.6; }
 .complete-pt {
-  font-size: 24px; font-weight: 900;
+  font-size: 24px; font-weight: 900; margin-bottom: 10px;
   background: linear-gradient(to right, #ffcb0f, #ff9500);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
+.complete-tips-link {
+  display: block; margin-top: 12px; padding: 10px 16px;
+  background: rgba(255,255,255,0.15); border-radius: 10px;
+  font-size: 12px; font-weight: 700; color: white; text-decoration: none;
+  transition: background 0.2s;
+}
+.complete-tips-link:hover { background: rgba(255,255,255,0.25); }
 </style>
 </head>
 <body>
@@ -596,15 +609,17 @@ body {
 <script>
 /*
  * STATE MACHINE
- * 0: Step1待ち（OSHIPOを知ろう）
- * 1: Step1完了（受け取り待ち）
- * 2: Step2待ち（シェア）
- * 3: Step2完了（受け取り待ち）
- * 4: Step3待ち（回答受取）
- * 5: Step3完了（受け取り待ち）
- * 6: Step4待ち（リアクション）
- * 7: Step4完了（受け取り待ち）
- * 8: 全完了
+ * 0: Step2待ち（OSHIPOを知ろう）
+ * 1: Step2完了（受け取り待ち）
+ * 2: Step3待ち（シェア）
+ * 3: Step3完了（受け取り待ち）
+ * 4: Step4待ち（回答受取）
+ * 5: Step4完了（受け取り待ち）
+ * 6: Step5待ち（リアクション）
+ * 7: Step5完了（受け取り待ち）
+ * 8: Step6待ち（回答をシェア）
+ * 9: Step6完了（受け取り待ち）
+ * 10: 全完了
  */
 var state = 0;
 var totalPt = 0;
@@ -613,57 +628,64 @@ var tipsData = {
   learn: {
     mascot: '🐾',
     title: 'OSHIPOってどんなサービス？',
-    body: 'OSHIPOは推し活をもっと楽しくするサービスぽん！<br><br>Xで質問をシェアすると、あなたのファンから温かいメッセージが届くよ💕<br><br><strong>ファンの本音や想いを知れる</strong>から、配信のネタにもなるし、なんか元気が出るんだぽん🌟'
+    body: 'OSHIPOはあなたのファンに毎日1つ質問を届けて、その回答をあなたに届けるサービスぽん！<br><br>配信中のコメントでは拾いきれない<strong>ファンの想いや本音</strong>を、質問への回答という形で受け取ることができるよ💕<br><br>届いた回答は配信のトークネタにもなって、一石二鳥ぽん🌟'
   },
   share: {
     mascot: '📢',
     title: 'シェアするとどうなるの？',
-    body: 'Xでシェアすると、ファンに「OSHIPOをはじめたよ！」が届くぽん🎉<br><br>ファンが回答してくれると、<strong>ファンの意外な想いや本音</strong>を知ることができるかも✨<br><br>さらに回答が届くたびにポイントGETのチャンス！活動の糧にしていこうぽん🌟'
+    body: 'Xでシェアすることで、あなたのファンがOSHIPOに回答しやすくなるぽん🎉<br><br>あなたから直接紹介されることで、<strong>ファンも安心して回答</strong>できるよ✨<br><br>届いた回答からファンの意外な想いや本音を知ることができるかも！'
   },
   answer: {
     mascot: '💬',
-    title: '回答が届くってどういうこと？',
-    body: 'ファンからの回答は「回答」タブで確認できるぽん！<br><br>ファンは推しのことを想いながら一生懸命答えてくれるよ💕<br><strong>回答が届いたときの気持ちはきっと格別！</strong>ぜひ体験してみてぽん🎉'
+    title: '回答はどこで確認できるの？',
+    body: 'ファンからの新着回答はHomeの<strong>「新着のファンからの回答」</strong>で確認できるぽん！<br><br>まだ回答が届いていない場合は、Xで質問をもう一度シェアしたり、配信で「OSHIPOで質問に答えてみて！」と紹介してみよう🎤<br><br>あなたから直接紹介されることで、ファンも回答しやすくなるぽん！'
   },
   react: {
     mascot: '❤️',
     title: 'リアクションってなに？',
-    body: '回答に❤️を押すと、<strong>あなたが読んだことがファンに伝わるぽん！</strong><br><br>ファンはリアクションをとても喜ぶよ🥺<br>ちゃんと見てくれてるって分かると、ファンも次の回答を頑張ってくれるぽん！'
+    body: '回答にリアクションを押すと、<strong>あなたが読んだことがファンに伝わるぽん！</strong><br><br>「ちゃんと見てくれてるんだ」とファンが実感できると、次の回答へのモチベーションに繋がるよ🥺<br><br>ワンタップで送れるので、気軽にリアクションしてみてぽん！'
+  },
+  shareAnswer: {
+    mascot: '📤',
+    title: '回答のシェアって？',
+    body: '届いた回答をXでシェアすることで、<strong>あなたの魅力が他のファンにも伝わるぽん</strong>🌟<br><br>ファンにとっても、推しに取り上げてもらえることが一番の喜びだよ💕<br><br>その回答を見た別のファンがさらに回答してくれるかも！嬉しかった回答や面白かった回答を、ぜひXで紹介してみてぽん！'
   }
 };
 
 function renderTutorial() {
   var c = document.getElementById('tutorial-container');
 
-  if (state === 8) {
+  if (state === 10) {
     c.innerHTML = `
       <div class="tutorial-complete">
         <div class="complete-emoji">🎉</div>
-        <div class="complete-title">チュートリアル完了！</div>
-        <div class="complete-sub">お疲れ様でしたぽん！<br>ファンとの素敵なやりとりをこれからも楽しんでぽん♪</div>
-        <div class="complete-pt">+1,100pt 獲得！</div>
+        <div class="complete-title">チュートリアル完了おめでとうございます！</div>
+        <div class="complete-pt">+1,000pt 獲得！</div>
+        <div class="complete-sub">これからも毎日、ファンに新しい質問が届きます。<br>ファンの方もこれからたくさん回答してくれるかも。<br>ぜひ毎日チェックしてみてください！</div>
+        <a class="complete-tips-link" href="https://www.notion.so/mirrativ/32f8ce0b6ef280268e06f7e208ec1d79" target="_blank">📖 ファンからの回答を増やすtipsを見る →</a>
       </div>`;
     return;
   }
 
-  // Dot states (5 dots: d[0]=登録済み=常にdone, d[1]〜d[4]=Step2〜5)
-  var d = [' done','','','',''];
-  if (state >= 2) d[1] = ' done'; else if (state <= 1) d[1] = ' active';
-  if (state >= 4) d[2] = ' done'; else if (state === 2 || state === 3) d[2] = ' active';
-  if (state >= 6) d[3] = ' done'; else if (state === 4 || state === 5) d[3] = ' active';
-  if (state >= 8) d[4] = ' done'; else if (state === 6 || state === 7) d[4] = ' active';
+  // Dot states (6 dots: d[0]=登録済み=常にdone, d[1]〜d[5]=Step2〜6)
+  var d = [' done','','','','',''];
+  if (state >= 2)  d[1] = ' done'; else if (state <= 1)               d[1] = ' active';
+  if (state >= 4)  d[2] = ' done'; else if (state === 2 || state === 3) d[2] = ' active';
+  if (state >= 6)  d[3] = ' done'; else if (state === 4 || state === 5) d[3] = ' active';
+  if (state >= 8)  d[4] = ' done'; else if (state === 6 || state === 7) d[4] = ' active';
+  if (state >= 10) d[5] = ' done'; else if (state === 8 || state === 9) d[5] = ' active';
 
-  var earnedPt = state >= 8 ? 1100 : state >= 6 ? 900 : state >= 4 ? 600 : state >= 2 ? 300 : 0;
-  var rewardPct = Math.round(earnedPt / 1100 * 100);
+  var earnedPt = state >= 10 ? 1000 : state >= 8 ? 800 : state >= 6 ? 700 : state >= 4 ? 400 : state >= 2 ? 100 : 0;
+  var rewardPct = Math.round(earnedPt / 1000 * 100);
 
   var stepNum, iconClass, iconEmoji, taskTitle, taskSub, tipsKey, statusHtml;
 
   if (state === 0 || state === 1) {
-    stepNum = '2 / 5';
+    stepNum = '2 / 6';
     iconClass = state === 1 ? 'done-icon' : 'learn';
     iconEmoji = state === 1 ? '✅' : '📖';
     taskTitle = 'OSHIPOを知ろう！';
-    taskSub = 'まずはOSHIPOで何ができるか確認してみよう';
+    taskSub = 'まずはOSHIPOで何ができるのか確認してみよう！';
     tipsKey = 'learn';
     if (state === 0) {
       statusHtml = `
@@ -671,10 +693,17 @@ function renderTutorial() {
 
         <div class="learn-step-list">
           <div class="learn-step">
-            <div class="learn-step-icon" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">📅</div>
+            <div class="learn-step-icon" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">💬</div>
             <div class="learn-step-content">
-              <div class="learn-step-title">毎日1問、あなた（推し）に関する質問をファンへ出題！</div>
-              <div class="learn-step-desc">ファンに毎日質問が届きます</div>
+              <div class="learn-step-title">OSHIPOはファンの「想い」が届くサービス</div>
+              <div class="learn-step-desc">あなたのファンに毎日1つ質問を届けて、その回答をあなたに届けます。配信中のコメントでは拾いきれないファンの想いを、質問への回答という形式で受け取ることができます</div>
+            </div>
+          </div>
+          <div class="learn-step-arrow">↓</div>
+          <div class="learn-step">
+            <div class="learn-step-icon" style="background:linear-gradient(135deg,#ff9500,#ef627f)">❓</div>
+            <div class="learn-step-content">
+              <div class="learn-step-title">こんな質問がファンに届きます</div>
               <div class="q-chips">
                 <span class="q-chip">推しの配信で一番好きな瞬間は？</span>
                 <span class="q-chip">推しの「声」の魅力を一言で表すと？</span>
@@ -684,63 +713,65 @@ function renderTutorial() {
           </div>
           <div class="learn-step-arrow">↓</div>
           <div class="learn-step">
-            <div class="learn-step-icon" style="background:linear-gradient(135deg,#ec4899,#ef627f)">❤️</div>
+            <div class="learn-step-icon" style="background:linear-gradient(135deg,#22c55e,#16a34a)">📺</div>
             <div class="learn-step-content">
-              <div class="learn-step-title">ファンが回答すると、あなたに届く！</div>
-              <div class="learn-step-desc">ファンから温かいメッセージが届きます！意外な一面を知ることができたり、元気をもらうことができます</div>
-            </div>
-          </div>
-          <div class="learn-step-arrow">↓</div>
-          <div class="learn-step">
-            <div class="learn-step-icon" style="background:linear-gradient(135deg,#22c55e,#16a34a)">🎁</div>
-            <div class="learn-step-content">
-              <div class="learn-step-title">回答が届くたびにポイントが貯まる</div>
-              <div class="learn-step-desc">ポイントはギフトカードなどに交換して活動に活かせます！</div>
+              <div class="learn-step-title">届いた回答は、配信ネタにも使えます</div>
+              <div class="learn-step-desc">ファンの意外な感想や本音が届くので、「こんな回答もらったんだけど！」と配信で取り上げれば、そのままトークのネタになります</div>
             </div>
           </div>
         </div>
 
         <div class="learn-winwin">
           <span class="learn-winwin-badge">✨ 完全無料</span>
-          ファンも回答するだけでポイントGET！推しもファンもみんな嬉しいサービスです！
+          利用料は一切かかりません！回答が届くとポイントも貯まり、ギフトカードなどに交換できます
         </div>
 
         <button class="btn-understand" onclick="doUnderstand()">
-          📖 OSHIPOを理解した！ +300pt
+          📖 OSHIPOを理解した！ +100pt
         </button>`;
     } else {
-      statusHtml = `<button class="btn-claim" onclick="openPopup(300, 1)">🎁 +300pt を受け取る</button>`;
+      statusHtml = `<button class="btn-claim" onclick="openPopup(100, 1)">🎁 +100pt を受け取る</button>`;
     }
   } else if (state === 2 || state === 3) {
-    stepNum = '3 / 5';
+    stepNum = '3 / 6';
     iconClass = state === 3 ? 'done-icon' : 'share';
     iconEmoji = state === 3 ? '✅' : '📢';
-    taskTitle = '最初の質問をXでシェアしよう';
-    taskSub = 'ファンに「OSHIPOをはじめたよ！」と伝えて、ファンの想いを受け取ってみよう 🎉';
+    taskTitle = '最初の質問をファンに聞いてみよう！';
+    taskSub = '最初の質問をXでシェアして、ファンに質問を投げかけてみましょう！';
     tipsKey = 'share';
     statusHtml = state === 2
       ? `<div class="tutorial-waiting"><span class="pulse"></span>上のシェアボタンを押してみよう 👆</div>`
       : `<button class="btn-claim" onclick="openPopup(300, 2)">🎁 +300pt を受け取る</button>`;
   } else if (state === 4 || state === 5) {
-    stepNum = '4 / 5';
+    stepNum = '4 / 6';
     iconClass = state === 5 ? 'done-icon' : 'answer';
     iconEmoji = state === 5 ? '✅' : '💬';
-    taskTitle = 'ファンからの回答を受け取ろう';
-    taskSub = 'ファンの回答を受け取るとポイントが貯まっていくぽん！';
+    taskTitle = 'ファンからの回答を受け取ろう！';
+    taskSub = '新着回答はHomeの「新着のファンからの回答」で確認できます';
     tipsKey = 'answer';
     statusHtml = state === 4
-      ? `<div class="tutorial-waiting"><span class="pulse"></span>ファンからの回答を待っているぽん...</div>`
+      ? `<div class="tutorial-waiting"><span class="pulse"></span>ファンからの回答を待っています...</div>`
       : `<button class="btn-claim" onclick="openPopup(300, 3)">🎁 +300pt を受け取る</button>`;
-  } else {
-    stepNum = '5 / 5';
+  } else if (state === 6 || state === 7) {
+    stepNum = '5 / 6';
     iconClass = state === 7 ? 'done-icon' : 'react';
     iconEmoji = state === 7 ? '✅' : '❤️';
-    taskTitle = 'ファンの回答にリアクションしよう';
-    taskSub = 'リアクションを押すとあなたが見たことがファンに伝わるぽん！';
+    taskTitle = 'ファンの回答にリアクションしよう！';
+    taskSub = 'リアクションを押すとあなたが読んだことがファンに伝わります';
     tipsKey = 'react';
     statusHtml = state === 6
       ? `<div class="tutorial-waiting"><span class="pulse"></span>下の回答に❤️を押してみよう 👇</div>`
-      : `<button class="btn-claim" onclick="openPopup(200, 4)">🎁 +200pt を受け取る</button>`;
+      : `<button class="btn-claim" onclick="openPopup(100, 4)">🎁 +100pt を受け取る</button>`;
+  } else {
+    stepNum = '6 / 6';
+    iconClass = state === 9 ? 'done-icon' : 'share';
+    iconEmoji = state === 9 ? '✅' : '📤';
+    taskTitle = 'ファンの回答をシェアしよう！';
+    taskSub = 'ファンの回答の下にある「回答をシェア」ボタンを押してXでシェアしましょう！';
+    tipsKey = 'shareAnswer';
+    statusHtml = state === 8
+      ? `<div class="tutorial-waiting"><span class="pulse"></span>下の「回答をシェア」ボタンを押してみよう 👇</div>`
+      : `<button class="btn-claim" onclick="openPopup(200, 5)">🎁 +200pt を受け取る</button>`;
   }
 
   c.innerHTML = `
@@ -754,6 +785,7 @@ function renderTutorial() {
             <span class="step-dot${d[2]}"></span>
             <span class="step-dot${d[3]}"></span>
             <span class="step-dot${d[4]}"></span>
+            <span class="step-dot${d[5]}"></span>
           </div>
           <div class="tutorial-step-text">Step ${stepNum}</div>
         </div>
@@ -762,7 +794,7 @@ function renderTutorial() {
           <div class="tutorial-reward-bar-wrap">
             <div class="tutorial-reward-bar-fill" style="width:${rewardPct}%"></div>
           </div>
-          <div class="tutorial-reward-total">合計 <span>1,100pt</span></div>
+          <div class="tutorial-reward-total">合計 <span>1,000pt</span></div>
         </div>
       </div>
       <div class="tutorial-body">
@@ -807,7 +839,7 @@ function openPopup(pt, step) {
   document.getElementById('popup-pt').textContent = '+' + pt + 'pt';
   document.getElementById('popup-step-done').textContent = '✅ Step ' + step + ' 完了！';
   var btn = document.getElementById('popup-next-btn');
-  btn.textContent = step === 4 ? 'チュートリアル完了！ 🎉' : '次のStep へ →';
+  btn.textContent = step === 5 ? 'チュートリアル完了！ 🎉' : '次のStep へ →';
   totalPt += pt;
   document.getElementById('pt-badge').textContent = '🪙 ' + totalPt + 'P';
   document.getElementById('popup-overlay').classList.add('show');
@@ -833,6 +865,10 @@ function onPopupNext() {
     showReactionStep();
   } else if (state === 7) {
     state = 8;
+    renderTutorial();
+    showShareAnswerStep();
+  } else if (state === 9) {
+    state = 10;
     renderTutorial();
   }
 }
@@ -862,6 +898,7 @@ function showFanAnswer() {
       <div class="answer-text">「今日もライブ楽しかったよ！またね」って言ってほしいな〜！てんちゃんの声が大好きだから毎日配信してほしい♡</div>
       <div class="answer-actions">
         <button class="btn-react" id="react-btn" onclick="doReact()" disabled style="opacity:0.4">❤️ いいね</button>
+        <button class="btn-share-answer" id="share-answer-btn" onclick="doShareAnswer()" disabled style="opacity:0.4">📤 回答をシェア</button>
       </div>
     </div>`;
   setTimeout(function() {
@@ -886,6 +923,22 @@ function doReact() {
   btn.disabled = true;
   setTimeout(function() {
     state = 7;
+    renderTutorial();
+  }, 400);
+}
+
+function showShareAnswerStep() {
+  var btn = document.getElementById('share-answer-btn');
+  if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+}
+
+function doShareAnswer() {
+  if (state !== 8) return;
+  var btn = document.getElementById('share-answer-btn');
+  btn.innerHTML = '✅ シェア済み';
+  btn.disabled = true;
+  setTimeout(function() {
+    state = 9;
     renderTutorial();
   }, 400);
 }
