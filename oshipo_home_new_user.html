@@ -243,22 +243,16 @@ body {
   border-radius: 999px; padding: 2px 8px; margin-right: 4px;
 }
 
-/* ===== QUESTION EXAMPLES ===== */
-.q-examples-label {
-  font-size: 11px; font-weight: 700; color: var(--gray-60);
-  margin-bottom: 6px; padding-left: 2px;
+/* ===== QUESTION CHIPS ===== */
+.q-chips {
+  display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px;
 }
-.q-examples {
-  display: flex; gap: 6px; margin-bottom: 12px;
-  overflow-x: auto; padding-bottom: 2px;
-}
-.q-examples::-webkit-scrollbar { display: none; }
-.q-example-card {
-  flex-shrink: 0; width: 110px;
+.q-chip {
   background: linear-gradient(135deg, #fff8f0, #fff0f5);
-  border: 1.5px solid var(--orange-30); border-radius: 12px;
-  padding: 10px 10px; font-size: 11px; font-weight: 700;
-  color: var(--text-high); line-height: 1.5; text-align: center;
+  border: 1px solid var(--orange-30); border-radius: 999px;
+  padding: 3px 9px; font-size: 10px; font-weight: 700;
+  color: var(--text-high); line-height: 1.4; white-space: nowrap;
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis;
 }
 
 .btn-understand {
@@ -609,13 +603,12 @@ function renderTutorial() {
             <div class="learn-step-content">
               <div class="learn-step-title">毎日1問、ファンへの質問が出題</div>
               <div class="learn-step-desc">OSHIPOが毎日あなたの推しへの質問を提案します</div>
+              <div class="q-chips">
+                <span class="q-chip">推しが一番頑張っていると思うことを教えて！</span>
+                <span class="q-chip">推しの配信で一番好きな瞬間は？</span>
+                <span class="q-chip">推しの「声」の魅力を一言で表すと？</span>
+              </div>
             </div>
-          </div>
-          <div class="learn-step-arrow">↓</div>
-          <div class="q-examples">
-            <div class="q-example-card">推しが一番頑張っていると<br>思うことを教えて！</div>
-            <div class="q-example-card">推しの配信で<br>一番好きな瞬間は？</div>
-            <div class="q-example-card">推しの「声」の魅力を<br>一言で表すと？</div>
           </div>
           <div class="learn-step-arrow">↓</div>
           <div class="learn-step">
