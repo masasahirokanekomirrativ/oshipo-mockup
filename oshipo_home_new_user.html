@@ -4,17 +4,62 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OSHIPO｜推しホーム（新規ユーザー）</title>
+<style>
+#pw-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #f5f0eb;
+  display: flex; align-items: center; justify-content: center;
+}
+#pw-overlay.hidden { display: none; }
+.pw-box {
+  background: white; border-radius: 20px; padding: 32px 28px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12); text-align: center; width: 280px;
+}
+.pw-logo { font-size: 32px; margin-bottom: 8px; }
+.pw-title { font-size: 16px; font-weight: 700; color: #242424; margin-bottom: 4px; }
+.pw-sub { font-size: 12px; color: #5f5f5f; margin-bottom: 20px; }
+#pw-input {
+  width: 100%; height: 44px; border-radius: 10px;
+  border: 2px solid #dbdbdb; padding: 0 14px;
+  font-size: 14px; outline: none; margin-bottom: 10px;
+  transition: border-color 0.2s;
+}
+#pw-input:focus { border-color: #fea714; }
+#pw-input.error { border-color: #ef627f; }
+#pw-btn {
+  width: 100%; height: 44px; border-radius: 999px;
+  background: linear-gradient(to right, #ff9500, #ef627f);
+  border: none; color: white; font-size: 14px; font-weight: 700; cursor: pointer;
+}
+#pw-error { font-size: 11px; color: #ef627f; margin-top: 6px; min-height: 16px; }
+</style>
+<div id="pw-overlay">
+  <div class="pw-box">
+    <div class="pw-logo">🐾</div>
+    <div class="pw-title">OSHIPO プレビュー</div>
+    <div class="pw-sub">パスワードを入力してください</div>
+    <input id="pw-input" type="password" placeholder="パスワード" onkeydown="if(event.key==='Enter')checkPw()">
+    <button id="pw-btn" onclick="checkPw()">確認</button>
+    <div id="pw-error"></div>
+  </div>
+</div>
 <script>
 (function() {
-  var PASS = 'oshipo_qa';
-  var KEY = 'oshipo_auth';
-  if (sessionStorage.getItem(KEY) !== '1') {
-    document.addEventListener('DOMContentLoaded', function() { document.body.style.display = 'none'; });
-    var input = prompt('パスワードを入力してください');
-    if (input === PASS) { sessionStorage.setItem(KEY, '1'); }
-    else { document.write('<style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#f5f0eb;color:#414141;font-size:15px;font-weight:700;}</style><body>アクセスが拒否されました。ページを再読み込みして再試行してください。</body>'); document.close(); }
+  if (sessionStorage.getItem('oshipo_auth') === '1') {
+    document.getElementById('pw-overlay').classList.add('hidden');
   }
 })();
+function checkPw() {
+  var v = document.getElementById('pw-input').value;
+  if (v === 'oshipo_qa') {
+    sessionStorage.setItem('oshipo_auth', '1');
+    document.getElementById('pw-overlay').classList.add('hidden');
+  } else {
+    document.getElementById('pw-input').classList.add('error');
+    document.getElementById('pw-error').textContent = 'パスワードが違います';
+    setTimeout(function(){ document.getElementById('pw-input').classList.remove('error'); }, 1000);
+  }
+}
 </script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
