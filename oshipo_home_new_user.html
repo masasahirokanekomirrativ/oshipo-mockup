@@ -603,7 +603,7 @@ body {
 </div>
 
 <div style="margin-top:20px;text-align:center;font-size:12px;color:#999;">
-  チュートリアルStep 1「OSHIPOを知ろう」からスタート。Step 1 完了後にシェアボタンが解放されます
+  チュートリアルStep 1「OSHIPOを知ろう」からスタート。全5ステップ完了で1,000pt獲得！
 </div>
 
 <script>
@@ -667,13 +667,13 @@ function renderTutorial() {
     return;
   }
 
-  // Dot states (6 dots: d[0]=登録済み=常にdone, d[1]〜d[5]=Step2〜6)
-  var d = [' done','','','','',''];
-  if (state >= 2)  d[1] = ' done'; else if (state <= 1)               d[1] = ' active';
-  if (state >= 4)  d[2] = ' done'; else if (state === 2 || state === 3) d[2] = ' active';
-  if (state >= 6)  d[3] = ' done'; else if (state === 4 || state === 5) d[3] = ' active';
-  if (state >= 8)  d[4] = ' done'; else if (state === 6 || state === 7) d[4] = ' active';
-  if (state >= 10) d[5] = ' done'; else if (state === 8 || state === 9) d[5] = ' active';
+  // Dot states (5 dots: d[0]〜d[4]=Step1〜5)
+  var d = ['','','','',''];
+  if (state >= 2)  d[0] = ' done'; else if (state <= 1)               d[0] = ' active';
+  if (state >= 4)  d[1] = ' done'; else if (state === 2 || state === 3) d[1] = ' active';
+  if (state >= 6)  d[2] = ' done'; else if (state === 4 || state === 5) d[2] = ' active';
+  if (state >= 8)  d[3] = ' done'; else if (state === 6 || state === 7) d[3] = ' active';
+  if (state >= 10) d[4] = ' done'; else if (state === 8 || state === 9) d[4] = ' active';
 
   var earnedPt = state >= 10 ? 1000 : state >= 8 ? 800 : state >= 6 ? 700 : state >= 4 ? 400 : state >= 2 ? 100 : 0;
   var rewardPct = Math.round(earnedPt / 1000 * 100);
@@ -681,7 +681,7 @@ function renderTutorial() {
   var stepNum, iconClass, iconEmoji, taskTitle, taskSub, tipsKey, statusHtml;
 
   if (state === 0 || state === 1) {
-    stepNum = '2 / 6';
+    stepNum = '1 / 5';
     iconClass = state === 1 ? 'done-icon' : 'learn';
     iconEmoji = state === 1 ? '✅' : '📖';
     taskTitle = 'OSHIPOを知ろう！';
@@ -733,7 +733,7 @@ function renderTutorial() {
       statusHtml = `<button class="btn-claim" onclick="openPopup(100, 1)">🎁 +100pt を受け取る</button>`;
     }
   } else if (state === 2 || state === 3) {
-    stepNum = '3 / 6';
+    stepNum = '2 / 5';
     iconClass = state === 3 ? 'done-icon' : 'share';
     iconEmoji = state === 3 ? '✅' : '📢';
     taskTitle = '最初の質問をファンに聞いてみよう！';
@@ -743,7 +743,7 @@ function renderTutorial() {
       ? `<div class="tutorial-waiting"><span class="pulse"></span>上のシェアボタンを押してみよう 👆</div>`
       : `<button class="btn-claim" onclick="openPopup(300, 2)">🎁 +300pt を受け取る</button>`;
   } else if (state === 4 || state === 5) {
-    stepNum = '4 / 6';
+    stepNum = '3 / 5';
     iconClass = state === 5 ? 'done-icon' : 'answer';
     iconEmoji = state === 5 ? '✅' : '💬';
     taskTitle = 'ファンからの回答を受け取ろう！';
@@ -753,7 +753,7 @@ function renderTutorial() {
       ? `<div class="tutorial-waiting"><span class="pulse"></span>ファンからの回答を待っています...</div>`
       : `<button class="btn-claim" onclick="openPopup(300, 3)">🎁 +300pt を受け取る</button>`;
   } else if (state === 6 || state === 7) {
-    stepNum = '5 / 6';
+    stepNum = '4 / 5';
     iconClass = state === 7 ? 'done-icon' : 'react';
     iconEmoji = state === 7 ? '✅' : '❤️';
     taskTitle = 'ファンの回答にリアクションしよう！';
@@ -763,7 +763,7 @@ function renderTutorial() {
       ? `<div class="tutorial-waiting"><span class="pulse"></span>下の回答に❤️を押してみよう 👇</div>`
       : `<button class="btn-claim" onclick="openPopup(100, 4)">🎁 +100pt を受け取る</button>`;
   } else {
-    stepNum = '6 / 6';
+    stepNum = '5 / 5';
     iconClass = state === 9 ? 'done-icon' : 'share';
     iconEmoji = state === 9 ? '✅' : '📤';
     taskTitle = 'ファンの回答をシェアしよう！';
@@ -785,7 +785,6 @@ function renderTutorial() {
             <span class="step-dot${d[2]}"></span>
             <span class="step-dot${d[3]}"></span>
             <span class="step-dot${d[4]}"></span>
-            <span class="step-dot${d[5]}"></span>
           </div>
           <div class="tutorial-step-text">Step ${stepNum}</div>
         </div>
@@ -798,11 +797,6 @@ function renderTutorial() {
         </div>
       </div>
       <div class="tutorial-body">
-        <div class="tutorial-prestep">
-          <div class="tutorial-prestep-icon">✓</div>
-          <div class="tutorial-prestep-label">アカウント登録完了</div>
-          <div class="tutorial-prestep-badge">Step 1 ✓</div>
-        </div>
         <div class="tutorial-task-row">
           <div class="tutorial-task-icon ${iconClass}">${iconEmoji}</div>
           <div class="tutorial-task-content">
