@@ -210,6 +210,39 @@ body {
 }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
 
+/* ===== LEARN STEP1 CONTENT ===== */
+.learn-intro {
+  font-size: 12px; font-weight: 700; color: var(--gray-60);
+  margin-bottom: 12px; line-height: 1.5;
+}
+.learn-step-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 12px; }
+.learn-step {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--gray-5); border-radius: 12px; padding: 10px 12px;
+}
+.learn-step-icon {
+  width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.learn-step-content { flex: 1; }
+.learn-step-title { font-size: 12px; font-weight: 700; color: var(--text-high); line-height: 1.35; }
+.learn-step-desc { font-size: 11px; color: var(--gray-60); margin-top: 2px; line-height: 1.4; }
+.learn-step-arrow {
+  text-align: center; font-size: 14px; color: var(--gray-20);
+  margin: 2px 0; line-height: 1;
+}
+.learn-winwin {
+  background: linear-gradient(135deg, #fff8e8, #fff0f5);
+  border: 1.5px solid var(--orange-30); border-radius: 12px;
+  padding: 10px 12px; font-size: 11px; font-weight: 600;
+  color: var(--gray-100); line-height: 1.6; margin-bottom: 12px;
+}
+.learn-winwin-badge {
+  display: inline-block; background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+  color: white; font-size: 10px; font-weight: 700;
+  border-radius: 999px; padding: 2px 8px; margin-right: 4px;
+}
+
 /* ===== QUESTION EXAMPLES ===== */
 .q-examples-label {
   font-size: 11px; font-weight: 700; color: var(--gray-60);
@@ -545,7 +578,7 @@ function renderTutorial() {
         <div class="complete-emoji">🎉</div>
         <div class="complete-title">チュートリアル完了！</div>
         <div class="complete-sub">お疲れ様でしたぽん！<br>ファンとの素敵なやりとりをこれからも楽しんでぽん♪</div>
-        <div class="complete-pt">+900pt 獲得！</div>
+        <div class="complete-pt">+1,100pt 獲得！</div>
       </div>`;
     return;
   }
@@ -568,31 +601,50 @@ function renderTutorial() {
     tipsKey = 'learn';
     if (state === 0) {
       statusHtml = `
-        <div class="benefit-list">
-          <div class="benefit-row">
-            <div class="benefit-icon-row-wrap" style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#ff9500,#ef627f);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📢</div>
-            <div class="benefit-row-text">Xで質問をシェアできる<span>ファンに質問を届けてみよう</span></div>
+        <div class="learn-intro">まずはOSHIPOがどんなサービスか確認してみよう！</div>
+
+        <div class="learn-step-list">
+          <div class="learn-step">
+            <div class="learn-step-icon" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">📅</div>
+            <div class="learn-step-content">
+              <div class="learn-step-title">毎日1問、ファンへの質問が出題</div>
+              <div class="learn-step-desc">OSHIPOが毎日あなたの推しへの質問を提案します</div>
+            </div>
           </div>
-          <div class="benefit-row">
-            <div class="benefit-icon-row-wrap" style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#3b82f6,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">💬</div>
-            <div class="benefit-row-text">ファンから温かい回答が届く<span>ファンの気持ちをリアルに知れる</span></div>
+          <div class="learn-step-arrow">↓</div>
+          <div class="q-examples">
+            <div class="q-example-card">推しが一番頑張っていると<br>思うことを教えて！</div>
+            <div class="q-example-card">推しの配信で<br>一番好きな瞬間は？</div>
+            <div class="q-example-card">推しの「声」の魅力を<br>一言で表すと？</div>
           </div>
-          <div class="benefit-row">
-            <div class="benefit-icon-row-wrap" style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#22c55e,#16a34a);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🎁</div>
-            <div class="benefit-row-text">回答が届くとポイントが貯まる<span>ギフト券などに交換できる</span></div>
+          <div class="learn-step-arrow">↓</div>
+          <div class="learn-step">
+            <div class="learn-step-icon" style="background:linear-gradient(135deg,#ec4899,#ef627f)">❤️</div>
+            <div class="learn-step-content">
+              <div class="learn-step-title">ファンが回答すると、あなたに届く</div>
+              <div class="learn-step-desc">温かいメッセージを読むだけで元気が出るよ🥺</div>
+            </div>
+          </div>
+          <div class="learn-step-arrow">↓</div>
+          <div class="learn-step">
+            <div class="learn-step-icon" style="background:linear-gradient(135deg,#22c55e,#16a34a)">🎁</div>
+            <div class="learn-step-content">
+              <div class="learn-step-title">回答が届くたびポイントが貯まる</div>
+              <div class="learn-step-desc">Amazonギフト券などに交換して活動に活かせる</div>
+            </div>
           </div>
         </div>
-        <div class="q-examples-label">💡 こんな質問が出題されます</div>
-        <div class="q-examples">
-          <div class="q-example-card">推しが一番頑張っていると<br>思うことを教えて！</div>
-          <div class="q-example-card">推しの配信で<br>一番好きな瞬間は？</div>
-          <div class="q-example-card">推しの「声」の魅力を<br>一言で表すと？</div>
+
+        <div class="learn-winwin">
+          <span class="learn-winwin-badge">✨ 完全無料</span>
+          ファンも回答するだけでポイントGET！<br>推しもファンも、みんなが嬉しいサービスぽん🎉
         </div>
+
         <button class="btn-understand" onclick="doUnderstand()">
-          📖 OSHIPOを理解した！ +100pt
+          📖 OSHIPOを理解した！ +300pt
         </button>`;
     } else {
-      statusHtml = `<button class="btn-claim" onclick="openPopup(100, 1)">🎁 +100pt を受け取る</button>`;
+      statusHtml = `<button class="btn-claim" onclick="openPopup(300, 1)">🎁 +300pt を受け取る</button>`;
     }
   } else if (state === 2 || state === 3) {
     stepNum = '2 / 4';
