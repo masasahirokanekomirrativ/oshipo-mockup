@@ -37,33 +37,24 @@
 body {
   font-family: "Hiragino Sans", "M PLUS Rounded 1c", sans-serif;
   background: #e8e8e8;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 24px 16px 48px;
-  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 24px 16px 48px; min-height: 100vh;
 }
 
 /* ===== PHONE ===== */
 .phone {
-  width: 390px;
-  background: #f5f0eb;
-  border-radius: 44px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-  overflow: hidden;
-  position: relative;
+  width: 390px; background: #f5f0eb; border-radius: 44px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25); overflow: hidden; position: relative;
 }
 .status-bar {
-  background: #f5f0eb;
-  padding: 14px 24px 0;
+  background: #f5f0eb; padding: 14px 24px 0;
   display: flex; align-items: center; justify-content: space-between;
   font-size: 13px; font-weight: 700;
 }
 .status-bar .time { font-size: 15px; font-weight: 700; color: #111; }
 .status-icons { display: flex; gap: 6px; align-items: center; font-size: 12px; color: #111; }
 .app-header {
-  background: #f5f0eb;
-  padding: 10px 16px 12px;
+  background: #f5f0eb; padding: 10px 16px 12px;
   display: flex; align-items: center; justify-content: space-between;
 }
 .logo { display: flex; align-items: center; gap: 6px; }
@@ -79,25 +70,21 @@ body {
 }
 .header-right { display: flex; align-items: center; gap: 8px; }
 .pt-badge {
-  background: white; border: 2px solid var(--orange-90);
-  border-radius: 999px; padding: 4px 10px;
-  font-size: 12px; font-weight: 700; color: var(--orange-90);
+  background: white; border: 2px solid var(--orange-90); border-radius: 999px;
+  padding: 4px 10px; font-size: 12px; font-weight: 700; color: var(--orange-90);
   transition: all 0.3s;
 }
 .avatar {
   width: 34px; height: 34px; border-radius: 50%;
   background: linear-gradient(135deg, #b8d4f0, #d4b8f0);
-  border: 2px solid white;
-  display: flex; align-items: center; justify-content: center; font-size: 18px;
+  border: 2px solid white; display: flex; align-items: center; justify-content: center; font-size: 18px;
 }
 .scroll-area { overflow-y: auto; padding: 0 0 80px; max-height: 780px; }
 
 /* ===== PROFILE CARD ===== */
 .profile-card {
-  margin: 0 12px 4px;
-  background: white; border-radius: 16px; padding: 14px 16px;
-  border: 2px solid var(--orange-90);
-  box-shadow: 2px 4px 16px rgba(0,0,0,0.07);
+  margin: 0 12px 4px; background: white; border-radius: 16px; padding: 14px 16px;
+  border: 2px solid var(--orange-90); box-shadow: 2px 4px 16px rgba(0,0,0,0.07);
 }
 .profile-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .profile-avatar {
@@ -132,7 +119,7 @@ body {
 }
 .proposed-q-header {
   background: linear-gradient(to right, var(--grad-start), var(--grad-end));
-  padding: 10px 14px; display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
 }
 .proposed-q-label { font-size: 11px; font-weight: 700; color: white; letter-spacing: 0.04em; }
 .proposed-q-badge {
@@ -140,8 +127,7 @@ body {
   font-size: 10px; font-weight: 700; color: white;
 }
 .proposed-q-pt {
-  margin-left: auto;
-  background: rgba(255,255,255,0.9); border-radius: 999px; padding: 3px 10px;
+  margin-left: auto; background: rgba(255,255,255,0.9); border-radius: 999px; padding: 3px 10px;
   font-size: 11px; font-weight: 800; color: var(--grad-start);
 }
 .proposed-q-body { padding: 14px 16px 12px; }
@@ -157,34 +143,25 @@ body {
   display: flex; align-items: center; justify-content: center; gap: 6px;
 }
 .btn-cta:active { transform: scale(0.97); }
-.btn-cta.done {
-  background: var(--gray-5); color: var(--gray-60);
-  border: 2px solid var(--gray-10); cursor: default;
+.btn-cta.locked {
+  background: var(--gray-10); color: var(--gray-20);
+  cursor: not-allowed; box-shadow: none;
 }
+.btn-cta.done { background: var(--gray-5); color: var(--gray-60); border: 2px solid var(--gray-10); cursor: default; }
 .btn-cta-wrap { padding: 12px 12px 0; }
 
 /* ===== TUTORIAL STEP CARD ===== */
 .tutorial-section { padding: 16px 12px 0; }
 .tutorial-card {
-  background: white; border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.09);
-  overflow: hidden;
-  transition: all 0.3s;
+  background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.09); overflow: hidden;
 }
 .tutorial-card-header {
   background: linear-gradient(135deg, #1a1a2e, #2d1b4e);
-  padding: 12px 14px;
-  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; display: flex; align-items: center; justify-content: space-between;
 }
-.tutorial-label {
-  font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.7);
-  letter-spacing: 0.1em; text-transform: uppercase;
-}
+.tutorial-label { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.7); letter-spacing: 0.1em; text-transform: uppercase; }
 .tutorial-step-dots { display: flex; gap: 5px; align-items: center; }
-.step-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: rgba(255,255,255,0.25); transition: all 0.3s;
-}
+.step-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.25); transition: all 0.3s; }
 .step-dot.active { background: white; width: 20px; border-radius: 4px; }
 .step-dot.done { background: var(--orange-90); }
 .tutorial-step-text { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.8); }
@@ -195,6 +172,7 @@ body {
   width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center; font-size: 18px;
 }
+.tutorial-task-icon.learn { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
 .tutorial-task-icon.share { background: linear-gradient(135deg, #ff9500, #ffcb0f); }
 .tutorial-task-icon.answer { background: linear-gradient(135deg, #3b82f6, #06b6d4); }
 .tutorial-task-icon.react { background: linear-gradient(135deg, #ec4899, #ef627f); }
@@ -203,61 +181,68 @@ body {
 .tutorial-task-title { font-size: 14px; font-weight: 700; color: var(--text-high); line-height: 1.35; }
 .tutorial-task-sub { font-size: 11px; color: var(--gray-60); margin-top: 3px; line-height: 1.4; }
 
+/* ===== BENEFIT LIST (Step1内) ===== */
+.benefit-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.benefit-row {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--gray-5); border-radius: 10px; padding: 10px 12px;
+}
+.benefit-row-icon {
+  width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.benefit-row-text { font-size: 12px; font-weight: 700; color: var(--gray-100); line-height: 1.4; }
+.benefit-row-text span { font-size: 11px; font-weight: 500; color: var(--gray-60); display: block; margin-top: 1px; }
+
 .tutorial-tips-btn {
   display: inline-flex; align-items: center; gap: 4px;
-  background: #f0f4ff; border: 1px solid #c7d5ff;
-  border-radius: 999px; padding: 5px 12px;
-  font-size: 11px; font-weight: 700; color: #4f6ef7;
-  cursor: pointer; margin-bottom: 10px;
+  background: #f0f4ff; border: 1px solid #c7d5ff; border-radius: 999px; padding: 5px 12px;
+  font-size: 11px; font-weight: 700; color: #4f6ef7; cursor: pointer; margin-bottom: 10px;
   transition: background 0.15s;
 }
 .tutorial-tips-btn:hover { background: #e0e8ff; }
-
 .tutorial-divider { height: 1px; background: var(--gray-5); margin: 0 0 10px; }
-
 .tutorial-status-row { display: flex; align-items: center; justify-content: space-between; min-height: 36px; }
 .tutorial-waiting { font-size: 12px; color: var(--gray-60); display: flex; align-items: center; gap: 5px; }
 .tutorial-waiting .pulse {
   width: 7px; height: 7px; border-radius: 50%; background: var(--orange-90);
   animation: pulse 1.5s infinite;
 }
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+
+.btn-understand {
+  width: 100%; height: 44px; border-radius: 999px;
+  background: linear-gradient(to right, #6366f1, #8b5cf6);
+  border: none; color: white; font-size: 13px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: transform 0.1s; box-shadow: 0 3px 12px rgba(99,102,241,0.35);
+  animation: claimPop 0.4s cubic-bezier(0.34,1.56,0.64,1);
 }
+.btn-understand:active { transform: scale(0.97); }
 
 .btn-claim {
   display: flex; align-items: center; gap: 6px;
   background: linear-gradient(to right, var(--orange-90), #ff6b35);
   border: none; border-radius: 999px; padding: 10px 18px;
   font-size: 13px; font-weight: 700; color: white;
-  cursor: pointer; transition: transform 0.1s, box-shadow 0.2s;
+  cursor: pointer; transition: transform 0.1s;
   box-shadow: 0 3px 12px rgba(254,167,20,0.4);
   animation: claimPop 0.4s cubic-bezier(0.34,1.56,0.64,1);
-  width: 100%;
-  justify-content: center;
+  width: 100%; justify-content: center;
 }
 .btn-claim:active { transform: scale(0.97); }
-@keyframes claimPop {
-  from { opacity: 0; transform: scale(0.85); }
-  to { opacity: 1; transform: scale(1); }
-}
+@keyframes claimPop { from{opacity:0;transform:scale(0.85)} to{opacity:1;transform:scale(1)} }
 
 /* ===== FAN ANSWER CARD ===== */
 .answer-notification {
   display: flex; align-items: center; gap: 8px;
   background: linear-gradient(135deg, #e8f4ff, #f0e8ff);
-  border: 1.5px solid #c7d5ff; border-radius: 12px;
-  padding: 10px 12px; margin-bottom: 8px;
+  border: 1.5px solid #c7d5ff; border-radius: 12px; padding: 10px 12px; margin-bottom: 8px;
   animation: slideIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
 }
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes slideIn { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
 .answer-notification .notif-icon { font-size: 20px; }
 .answer-notification .notif-text { font-size: 12px; font-weight: 700; color: #3b4fff; line-height: 1.35; }
-
 .answer-card {
   background: white; border-radius: 14px; padding: 14px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
@@ -276,21 +261,15 @@ body {
 .btn-react {
   display: flex; align-items: center; gap: 4px;
   background: var(--gray-5); border: none; border-radius: 999px;
-  padding: 6px 14px; font-size: 12px; font-weight: 700; color: var(--gray-60);
-  cursor: pointer; transition: all 0.2s;
+  padding: 6px 14px; font-size: 12px; font-weight: 700; color: var(--gray-60); cursor: pointer; transition: all 0.2s;
 }
 .btn-react.active { background: #fff0f5; color: var(--pink); }
 .btn-react.bounce { animation: reactionBounce 0.4s cubic-bezier(0.34,1.56,0.64,1); }
-@keyframes reactionBounce {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.3); }
-  100% { transform: scale(1); }
-}
+@keyframes reactionBounce { 0%{transform:scale(1)} 50%{transform:scale(1.3)} 100%{transform:scale(1)} }
 
 /* ===== EMPTY STATE ===== */
 .empty-state {
-  background: linear-gradient(135deg, #fff5e8, #fff0f3);
-  border-radius: 14px; padding: 24px 16px;
+  background: linear-gradient(135deg, #fff5e8, #fff0f3); border-radius: 14px; padding: 24px 16px;
   display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;
 }
 .empty-state .mascot-img { font-size: 48px; }
@@ -303,8 +282,7 @@ body {
   border-top: 1px solid var(--gray-10); display: flex; padding: 8px 0 16px;
 }
 .nav-item {
-  flex: 1; display: flex; flex-direction: column;
-  align-items: center; gap: 3px;
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
   font-size: 10px; color: var(--gray-60); font-weight: 600; cursor: pointer;
 }
 .nav-item.active { color: var(--orange-90); }
@@ -317,15 +295,14 @@ body {
 
 /* ===== TIPS BOTTOM SHEET ===== */
 .sheet-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-  z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.25s;
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100;
+  opacity: 0; pointer-events: none; transition: opacity 0.25s;
 }
 .sheet-overlay.show { opacity: 1; pointer-events: all; }
 .tips-sheet {
   position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%);
-  width: 390px; background: white; border-radius: 24px 24px 0 0;
-  padding: 20px 20px 36px; z-index: 101;
-  transition: transform 0.35s cubic-bezier(0.34,1.1,0.64,1);
+  width: 390px; background: white; border-radius: 24px 24px 0 0; padding: 20px 20px 36px;
+  z-index: 101; transition: transform 0.35s cubic-bezier(0.34,1.1,0.64,1);
 }
 .tips-sheet.show { transform: translateX(-50%) translateY(0); }
 .sheet-handle { width: 36px; height: 4px; border-radius: 2px; background: var(--gray-10); margin: 0 auto 16px; }
@@ -335,20 +312,18 @@ body {
 .sheet-body strong { color: var(--grad-start); }
 .btn-sheet-close {
   width: 100%; height: 46px; border-radius: 999px;
-  background: var(--gray-5); border: none;
-  font-size: 14px; font-weight: 700; color: var(--gray-60); cursor: pointer;
+  background: var(--gray-5); border: none; font-size: 14px; font-weight: 700; color: var(--gray-60); cursor: pointer;
 }
 
 /* ===== POINT CLAIM POPUP ===== */
 .popup-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-  z-index: 200; display: flex; align-items: center; justify-content: center;
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200;
+  display: flex; align-items: center; justify-content: center;
   opacity: 0; pointer-events: none; transition: opacity 0.2s;
 }
 .popup-overlay.show { opacity: 1; pointer-events: all; }
 .point-popup {
-  width: 300px; background: white; border-radius: 24px;
-  padding: 32px 24px 24px; text-align: center;
+  width: 300px; background: white; border-radius: 24px; padding: 32px 24px 24px; text-align: center;
   transform: scale(0.8); transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
 }
 .popup-overlay.show .point-popup { transform: scale(1); }
@@ -356,8 +331,7 @@ body {
 .popup-pt {
   font-size: 42px; font-weight: 900;
   background: linear-gradient(to right, var(--grad-start), var(--grad-end));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  margin-bottom: 4px;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px;
 }
 .popup-pt-label { font-size: 13px; font-weight: 700; color: var(--gray-60); margin-bottom: 16px; }
 .popup-step-done { font-size: 12px; font-weight: 700; color: var(--green); margin-bottom: 20px; }
@@ -369,8 +343,7 @@ body {
 
 /* ===== COMPLETE CARD ===== */
 .tutorial-complete {
-  background: linear-gradient(135deg, #1a1a2e, #2d1b4e);
-  border-radius: 16px; padding: 20px 16px; text-align: center;
+  background: linear-gradient(135deg, #1a1a2e, #2d1b4e); border-radius: 16px; padding: 20px 16px; text-align: center;
   box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
 .complete-emoji { font-size: 40px; margin-bottom: 8px; }
@@ -380,14 +353,6 @@ body {
   font-size: 24px; font-weight: 900;
   background: linear-gradient(to right, #ffcb0f, #ff9500);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-
-/* ===== DEMO HINT ===== */
-.demo-hint {
-  margin: 0 12px; padding: 8px 12px;
-  background: rgba(255,148,0,0.1); border-radius: 10px;
-  font-size: 11px; color: var(--grad-start); font-weight: 600;
-  text-align: center; border: 1px dashed var(--orange-30);
 }
 </style>
 </head>
@@ -408,7 +373,7 @@ body {
 <div class="popup-overlay" id="popup-overlay">
   <div class="point-popup">
     <div class="confetti-row" id="popup-confetti">🎉✨🎊</div>
-    <div class="popup-pt" id="popup-pt">+300pt</div>
+    <div class="popup-pt" id="popup-pt">+100pt</div>
     <div class="popup-pt-label">獲得！</div>
     <div class="popup-step-done" id="popup-step-done">✅ Step 1 完了！</div>
     <button class="btn-popup-next" id="popup-next-btn" onclick="onPopupNext()">次のStep へ →</button>
@@ -474,9 +439,9 @@ body {
 
     <!-- Share CTA -->
     <div class="btn-cta-wrap">
-      <button class="btn-cta" id="share-btn" onclick="doShare()">
-        <span style="font-size:14px;font-weight:900">𝕏</span>
-        質問をシェアして回答を募集する
+      <button class="btn-cta locked" id="share-btn" onclick="doShare()">
+        <span style="font-size:16px">🔒</span>
+        Step 1 をクリアするとシェアできます
       </button>
     </div>
 
@@ -511,19 +476,31 @@ body {
 </div>
 
 <div style="margin-top:20px;text-align:center;font-size:12px;color:#999;">
-  シェアボタンを押してチュートリアルの流れを体験できます
+  チュートリアルStep 1「OSHIPOを知ろう」からスタート。Step 1 完了後にシェアボタンが解放されます
 </div>
 
 <script>
-// ===== STATE =====
+/*
+ * STATE MACHINE
+ * 0: Step1待ち（OSHIPOを知ろう）
+ * 1: Step1完了（受け取り待ち）
+ * 2: Step2待ち（シェア）
+ * 3: Step2完了（受け取り待ち）
+ * 4: Step3待ち（回答受取）
+ * 5: Step3完了（受け取り待ち）
+ * 6: Step4待ち（リアクション）
+ * 7: Step4完了（受け取り待ち）
+ * 8: 全完了
+ */
 var state = 0;
-// 0: Step1待ち  1: Step1完了(受け取り待ち)  2: Step2待ち  3: Step2完了(受け取り待ち)  4: Step3待ち  5: Step3完了(受け取り待ち)  6: 全完了
-
 var totalPt = 0;
-var popupCallback = null;
 
-// ===== TIPS DATA =====
 var tipsData = {
+  learn: {
+    mascot: '🐾',
+    title: 'OSHIPOってどんなサービス？',
+    body: 'OSHIPOは推し活をもっと楽しくするサービスぽん！<br><br>Xで質問をシェアすると、あなたのファンから温かいメッセージが届くよ💕<br><br><strong>ファンの本音や想いを知れる</strong>から、配信のネタにもなるし、なんか元気が出るんだぽん🌟'
+  },
   share: {
     mascot: '📢',
     title: 'シェアするとどうなるの？',
@@ -541,79 +518,99 @@ var tipsData = {
   }
 };
 
-// ===== RENDER =====
 function renderTutorial() {
   var c = document.getElementById('tutorial-container');
 
-  if (state === 6) {
+  if (state === 8) {
     c.innerHTML = `
       <div class="tutorial-complete">
         <div class="complete-emoji">🎉</div>
         <div class="complete-title">チュートリアル完了！</div>
         <div class="complete-sub">お疲れ様でしたぽん！<br>ファンとの素敵なやりとりをこれからも楽しんでぽん♪</div>
-        <div class="complete-pt">+800pt 獲得！</div>
+        <div class="complete-pt">+900pt 獲得！</div>
       </div>`;
     return;
   }
 
-  var stepNum, dotState, iconClass, iconEmoji, taskTitle, taskSub, tipsKey, statusHtml;
+  // Dot states
+  var d = ['','','',''];
+  if (state >= 2) d[0] = ' done'; else if (state <= 1) d[0] = ' active';
+  if (state >= 4) d[1] = ' done'; else if (state === 2 || state === 3) d[1] = ' active';
+  if (state >= 6) d[2] = ' done'; else if (state === 4 || state === 5) d[2] = ' active';
+  if (state >= 8) d[3] = ' done'; else if (state === 6 || state === 7) d[3] = ' active';
+
+  var stepNum, iconClass, iconEmoji, taskTitle, taskSub, tipsKey, statusHtml;
 
   if (state === 0 || state === 1) {
-    stepNum = '1 / 3';
-    dotState = [true, false, false];
-    iconClass = state === 1 ? 'done-icon' : 'share';
-    iconEmoji = state === 1 ? '✅' : '📢';
+    stepNum = '1 / 4';
+    iconClass = state === 1 ? 'done-icon' : 'learn';
+    iconEmoji = state === 1 ? '✅' : '📖';
+    taskTitle = 'OSHIPOを知ろう！';
+    taskSub = 'まずはOSHIPOで何ができるか確認してみよう';
+    tipsKey = 'learn';
+    if (state === 0) {
+      statusHtml = `
+        <div class="benefit-list">
+          <div class="benefit-row">
+            <div class="benefit-icon-row-wrap" style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#ff9500,#ef627f);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📢</div>
+            <div class="benefit-row-text">Xで質問をシェアできる<span>ファンに質問を届けてみよう</span></div>
+          </div>
+          <div class="benefit-row">
+            <div class="benefit-icon-row-wrap" style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#3b82f6,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">💬</div>
+            <div class="benefit-row-text">ファンから温かい回答が届く<span>ファンの気持ちをリアルに知れる</span></div>
+          </div>
+          <div class="benefit-row">
+            <div class="benefit-icon-row-wrap" style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#22c55e,#16a34a);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🎁</div>
+            <div class="benefit-row-text">回答が届くとポイントが貯まる<span>ギフト券などに交換できる</span></div>
+          </div>
+        </div>
+        <button class="btn-understand" onclick="doUnderstand()">
+          📖 OSHIPOを理解した！ +100pt
+        </button>`;
+    } else {
+      statusHtml = `<button class="btn-claim" onclick="openPopup(100, 1)">🎁 +100pt を受け取る</button>`;
+    }
+  } else if (state === 2 || state === 3) {
+    stepNum = '2 / 4';
+    iconClass = state === 3 ? 'done-icon' : 'share';
+    iconEmoji = state === 3 ? '✅' : '📢';
     taskTitle = '最初の質問をXでシェアしよう';
     taskSub = 'シェアするとファンから温かい回答が届くぽん！';
     tipsKey = 'share';
-    statusHtml = state === 0
+    statusHtml = state === 2
       ? `<div class="tutorial-waiting"><span class="pulse"></span>上のシェアボタンを押してみよう 👆</div>`
-      : `<button class="btn-claim" onclick="openPopup(300, 1)">🎁 +300pt を受け取る</button>`;
-  } else if (state === 2 || state === 3) {
-    stepNum = '2 / 3';
-    dotState = [false, true, false];
-    iconClass = state === 3 ? 'done-icon' : 'answer';
-    iconEmoji = state === 3 ? '✅' : '💬';
+      : `<button class="btn-claim" onclick="openPopup(300, 2)">🎁 +300pt を受け取る</button>`;
+  } else if (state === 4 || state === 5) {
+    stepNum = '3 / 4';
+    iconClass = state === 5 ? 'done-icon' : 'answer';
+    iconEmoji = state === 5 ? '✅' : '💬';
     taskTitle = 'ファンからの回答を受け取ろう';
     taskSub = 'ファンの回答を受け取るとポイントが貯まっていくぽん！';
     tipsKey = 'answer';
-    statusHtml = state === 2
+    statusHtml = state === 4
       ? `<div class="tutorial-waiting"><span class="pulse"></span>ファンからの回答を待っているぽん...</div>`
-      : `<button class="btn-claim" onclick="openPopup(300, 2)">🎁 +300pt を受け取る</button>`;
+      : `<button class="btn-claim" onclick="openPopup(300, 3)">🎁 +300pt を受け取る</button>`;
   } else {
-    stepNum = '3 / 3';
-    dotState = [false, false, true];
-    iconClass = state === 5 ? 'done-icon' : 'react';
-    iconEmoji = state === 5 ? '✅' : '❤️';
+    stepNum = '4 / 4';
+    iconClass = state === 7 ? 'done-icon' : 'react';
+    iconEmoji = state === 7 ? '✅' : '❤️';
     taskTitle = 'ファンの回答にリアクションしよう';
     taskSub = 'リアクションを押すとあなたが見たことがファンに伝わるぽん！';
     tipsKey = 'react';
-    statusHtml = state === 4
+    statusHtml = state === 6
       ? `<div class="tutorial-waiting"><span class="pulse"></span>下の回答に❤️を押してみよう 👇</div>`
-      : `<button class="btn-claim" onclick="openPopup(200, 3)">🎁 +200pt を受け取る</button>`;
+      : `<button class="btn-claim" onclick="openPopup(200, 4)">🎁 +200pt を受け取る</button>`;
   }
-
-  var dots = dotState.map(function(d, i) {
-    var cls = 'step-dot';
-    if (i < [0,1,2,2,3,3,3][state] - 1 || (state >= 1 && i === 0 && state < 2) ) cls += ' done';
-    // simpler logic:
-    return '';
-  });
-
-  // Step dot logic
-  var d0 = '', d1 = '', d2 = '';
-  if (state >= 2) d0 = ' done'; else if (state <= 1) d0 = ' active';
-  if (state >= 4) d1 = ' done'; else if (state === 2 || state === 3) d1 = ' active';
-  if (state >= 6) d2 = ' done'; else if (state === 4 || state === 5) d2 = ' active';
 
   c.innerHTML = `
     <div class="tutorial-card">
       <div class="tutorial-card-header">
         <div class="tutorial-label">チュートリアル</div>
         <div class="tutorial-step-dots">
-          <span class="step-dot${d0}"></span>
-          <span class="step-dot${d1}"></span>
-          <span class="step-dot${d2}"></span>
+          <span class="step-dot${d[0]}"></span>
+          <span class="step-dot${d[1]}"></span>
+          <span class="step-dot${d[2]}"></span>
+          <span class="step-dot${d[3]}"></span>
         </div>
         <div class="tutorial-step-text">Step ${stepNum}</div>
       </div>
@@ -625,36 +622,36 @@ function renderTutorial() {
             <div class="tutorial-task-sub">${taskSub}</div>
           </div>
         </div>
-        <button class="tutorial-tips-btn" onclick="openTips('${tipsKey}')">
-          💡 詳しく知る
-        </button>
+        ${state !== 0 ? `<button class="tutorial-tips-btn" onclick="openTips('${tipsKey}')">💡 詳しく知る</button>` : ''}
         <div class="tutorial-divider"></div>
-        <div class="tutorial-status-row">${statusHtml}</div>
+        <div class="tutorial-status-row" style="flex-direction:column;align-items:stretch;gap:0">${statusHtml}</div>
       </div>
     </div>`;
 }
 
-// ===== SHARE =====
-function doShare() {
-  if (state !== 0) return;
+// Step1: 理解ボタン
+function doUnderstand() {
   state = 1;
+  renderTutorial();
+}
+
+// Step2: シェア
+function doShare() {
+  if (state !== 2) return;
+  state = 3;
   var btn = document.getElementById('share-btn');
+  btn.classList.remove('locked');
   btn.classList.add('done');
   btn.innerHTML = '<span>✅</span> シェア済み';
   document.getElementById('fan-count').textContent = '3人';
   renderTutorial();
 }
 
-// ===== POPUP =====
 function openPopup(pt, step) {
   document.getElementById('popup-pt').textContent = '+' + pt + 'pt';
   document.getElementById('popup-step-done').textContent = '✅ Step ' + step + ' 完了！';
   var btn = document.getElementById('popup-next-btn');
-  if (step === 3) {
-    btn.textContent = 'チュートリアル完了！ 🎉';
-  } else {
-    btn.textContent = '次のStep へ →';
-  }
+  btn.textContent = step === 4 ? 'チュートリアル完了！ 🎉' : '次のStep へ →';
   totalPt += pt;
   document.getElementById('pt-badge').textContent = '🪙 ' + totalPt + 'P';
   document.getElementById('popup-overlay').classList.add('show');
@@ -663,24 +660,33 @@ function openPopup(pt, step) {
 function onPopupNext() {
   document.getElementById('popup-overlay').classList.remove('show');
   if (state === 1) {
-    // Step1→Step2: show fake answer notification
+    // Step1→Step2: シェアボタンを解放
     state = 2;
+    unlockShareButton();
     renderTutorial();
     setTimeout(function() {
-      showFanAnswer();
-    }, 600);
+      document.getElementById('scroll').scrollTop = 0;
+    }, 300);
   } else if (state === 3) {
     state = 4;
     renderTutorial();
-    // Show reaction button on answer card
-    showReactionStep();
+    setTimeout(showFanAnswer, 600);
   } else if (state === 5) {
     state = 6;
+    renderTutorial();
+    showReactionStep();
+  } else if (state === 7) {
+    state = 8;
     renderTutorial();
   }
 }
 
-// ===== FAN ANSWER =====
+function unlockShareButton() {
+  var btn = document.getElementById('share-btn');
+  btn.classList.remove('locked');
+  btn.innerHTML = '<span style="font-size:14px;font-weight:900">𝕏</span> 質問をシェアして回答を募集する';
+}
+
 function showFanAnswer() {
   document.getElementById('answer-badge').style.display = 'block';
   document.getElementById('answer-count').textContent = '1回';
@@ -699,42 +705,35 @@ function showFanAnswer() {
       </div>
       <div class="answer-text">「今日もライブ楽しかったよ！またね」って言ってほしいな〜！てんちゃんの声が大好きだから毎日配信してほしい♡</div>
       <div class="answer-actions">
-        <button class="btn-react" id="react-btn" onclick="doReact()" disabled style="opacity:0.4">
-          ❤️ いいね
-        </button>
+        <button class="btn-react" id="react-btn" onclick="doReact()" disabled style="opacity:0.4">❤️ いいね</button>
       </div>
     </div>`;
-  // Simulate step2 done after showing answer
   setTimeout(function() {
-    state = 3;
+    state = 5;
     renderTutorial();
     setTimeout(function() {
-      document.getElementById('scroll').scrollTop += 100;
+      document.getElementById('answer-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 200);
   }, 1200);
 }
 
 function showReactionStep() {
   var btn = document.getElementById('react-btn');
-  if (btn) {
-    btn.disabled = false;
-    btn.style.opacity = '1';
-  }
+  if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
 }
 
 function doReact() {
-  if (state !== 4) return;
+  if (state !== 6) return;
   var btn = document.getElementById('react-btn');
   btn.classList.add('active', 'bounce');
   btn.innerHTML = '❤️ いいね 1';
   btn.disabled = true;
   setTimeout(function() {
-    state = 5;
+    state = 7;
     renderTutorial();
   }, 400);
 }
 
-// ===== TIPS =====
 function openTips(key) {
   var d = tipsData[key];
   document.getElementById('sheet-mascot').textContent = d.mascot;
@@ -748,7 +747,6 @@ function closeSheet() {
   document.getElementById('tips-sheet').classList.remove('show');
 }
 
-// ===== INIT =====
 renderTutorial();
 </script>
 </body>
