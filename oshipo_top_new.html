@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSHIPO｜推しとファンをつなぐ質問サービス</title>
+<style>
+#pw-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #f5f0eb;
+  display: flex; align-items: center; justify-content: center;
+}
+#pw-overlay.hidden { display: none; }
+.pw-box {
+  background: white; border-radius: 20px; padding: 32px 28px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12); text-align: center; width: 280px;
+}
+.pw-logo { font-size: 32px; margin-bottom: 8px; }
+.pw-title { font-size: 16px; font-weight: 700; color: #242424; margin-bottom: 4px; }
+.pw-sub { font-size: 12px; color: #5f5f5f; margin-bottom: 20px; }
+#pw-input {
+  width: 100%; height: 44px; border-radius: 10px;
+  border: 2px solid #dbdbdb; padding: 0 14px;
+  font-size: 14px; outline: none; margin-bottom: 10px;
+  transition: border-color 0.2s;
+}
+#pw-input:focus { border-color: #fea714; }
+#pw-input.error { border-color: #ef627f; }
+#pw-btn {
+  width: 100%; height: 44px; border-radius: 999px;
+  background: linear-gradient(to right, #ff9500, #ef627f);
+  border: none; color: white; font-size: 14px; font-weight: 700; cursor: pointer;
+}
+#pw-error { font-size: 11px; color: #ef627f; margin-top: 6px; min-height: 16px; }
+</style>
+<div id="pw-overlay">
+  <div class="pw-box">
+    <div class="pw-logo">🐾</div>
+    <div class="pw-title">OSHIPO プレビュー</div>
+    <div class="pw-sub">パスワードを入力してください</div>
+    <input id="pw-input" type="password" placeholder="パスワード" onkeydown="if(event.key==='Enter')checkPw()">
+    <button id="pw-btn" onclick="checkPw()">確認</button>
+    <div id="pw-error"></div>
+  </div>
+</div>
+<script>
+(function() {
+  if (sessionStorage.getItem('oshipo_auth') === '1') {
+    document.getElementById('pw-overlay').classList.add('hidden');
+  }
+})();
+function checkPw() {
+  var v = document.getElementById('pw-input').value;
+  if (v === 'oshipo_qa') {
+    sessionStorage.setItem('oshipo_auth', '1');
+    document.getElementById('pw-overlay').classList.add('hidden');
+  } else {
+    document.getElementById('pw-input').classList.add('error');
+    document.getElementById('pw-error').textContent = 'パスワードが違います';
+    setTimeout(function(){ document.getElementById('pw-input').classList.remove('error'); }, 1000);
+  }
+}
+</script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --orange-90: #fea714;
+  --orange-30: #ffdca1;
+  --orange-10: #ffedd0;
+  --orange-5: #fff6e7;
+  --gray-100: #414141;
+  --gray-60: #5f5f5f;
+  --gray-20: #bbbbbb;
+  --gray-10: #dbdbdb;
+  --gray-5: #ececec;
+  --text-high: #242424;
+  --grad-start: #ff9500;
+  --grad-end: #ef627f;
+  --pink: #ff4886;
+}
+body {
+  font-family: "Hiragino Sans", "M PLUS Rounded 1c", sans-serif;
+  background: #e8e8e8;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 24px 16px 48px; min-height: 100vh;
+}
+
+/* ===== PHONE ===== */
+.phone {
+  width: 390px; background: #fff; border-radius: 44px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25); overflow: hidden; position: relative;
+}
+.status-bar {
+  background: white; padding: 14px 24px 0;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 13px; font-weight: 700;
+}
+.status-bar .time { font-size: 15px; font-weight: 700; color: #111; }
+.status-icons { display: flex; gap: 6px; align-items: center; font-size: 12px; color: #111; }
+.scroll-area { overflow-y: auto; max-height: 820px; }
+
+/* ===== HEADER ===== */
+.top-header {
+  background: white; padding: 10px 20px 12px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--gray-5);
+}
+.logo { display: flex; align-items: center; gap: 6px; }
+.logo .name {
+  font-size: 20px; font-weight: 900; letter-spacing: -0.5px;
+  background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.btn-login {
+  background: transparent; border: 1.5px solid var(--gray-10);
+  border-radius: 999px; padding: 6px 16px;
+  font-size: 12px; font-weight: 700; color: var(--gray-60); cursor: pointer;
+}
+
+/* ===== HERO ===== */
+.hero {
+  background: linear-gradient(160deg, #fff8f0 0%, #fff0f5 100%);
+  padding: 28px 20px 32px; text-align: center; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -40px; right: -40px;
+  width: 160px; height: 160px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,149,0,0.12), transparent 70%);
+}
+.hero::after {
+  content: ''; position: absolute; bottom: -30px; left: -30px;
+  width: 120px; height: 120px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(239,98,127,0.10), transparent 70%);
+}
+
+.oshipon-hero {
+  position: relative; display: inline-block; margin-bottom: 16px;
+}
+.oshipon-body {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: linear-gradient(135deg, #ff9500, #ef627f);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 44px; margin: 0 auto; box-shadow: 0 8px 24px rgba(255,149,0,0.3);
+  animation: heroFloat 3s ease-in-out infinite;
+}
+@keyframes heroFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.hero-bubble {
+  position: absolute; top: -10px; right: -110px;
+  background: white; border-radius: 14px 14px 14px 4px;
+  padding: 8px 12px; font-size: 11px; font-weight: 700;
+  color: var(--text-high); line-height: 1.5;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10); white-space: nowrap;
+  animation: bubbleIn 0.6s 0.3s both cubic-bezier(0.34,1.3,0.64,1);
+}
+@keyframes bubbleIn { from{opacity:0;transform:scale(0.7) translateX(10px)} to{opacity:1;transform:scale(1) translateX(0)} }
+.hero-bubble::before {
+  content: ''; position: absolute; left: -6px; bottom: 10px;
+  border: 6px solid transparent; border-right-color: white;
+  border-left: none;
+}
+
+.hero-tag {
+  display: inline-block; background: var(--orange-10);
+  color: var(--orange-90); font-size: 11px; font-weight: 700;
+  border-radius: 999px; padding: 4px 12px; margin-bottom: 10px;
+}
+.hero-title {
+  font-size: 22px; font-weight: 900; color: var(--text-high);
+  line-height: 1.4; margin-bottom: 8px; letter-spacing: -0.3px;
+}
+.hero-title span {
+  background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero-sub {
+  font-size: 13px; color: var(--gray-60); line-height: 1.65; margin-bottom: 24px;
+}
+
+.hero-cta-group { display: flex; flex-direction: column; gap: 10px; }
+.btn-cta-primary {
+  width: 100%; height: 52px; border-radius: 999px;
+  background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+  border: none; color: white; font-size: 15px; font-weight: 800;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
+  box-shadow: 0 4px 20px rgba(255,149,0,0.35);
+  transition: transform 0.1s, opacity 0.2s;
+}
+.btn-cta-primary:active { transform: scale(0.97); }
+.btn-cta-secondary {
+  width: 100%; height: 52px; border-radius: 999px;
+  background: white; border: 2px solid var(--orange-90);
+  color: var(--orange-90); font-size: 15px; font-weight: 800;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: background 0.15s;
+}
+.btn-cta-secondary:active { background: var(--orange-5); }
+.cta-note {
+  text-align: center; font-size: 11px; color: var(--gray-60); margin-top: 4px;
+}
+
+/* ===== HOW IT WORKS ===== */
+.section-wrap { padding: 32px 20px; }
+.section-tag {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  color: var(--orange-90); letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.section-title {
+  font-size: 18px; font-weight: 900; color: var(--text-high);
+  line-height: 1.4; margin-bottom: 20px;
+}
+
+.flow-steps { display: flex; flex-direction: column; gap: 0; }
+.flow-step {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--gray-5);
+}
+.flow-step:last-child { border-bottom: none; }
+.flow-step-num {
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--grad-start), var(--grad-end));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 900; color: white;
+}
+.flow-step-content { flex: 1; }
+.flow-step-title { font-size: 14px; font-weight: 800; color: var(--text-high); margin-bottom: 4px; }
+.flow-step-desc { font-size: 12px; color: var(--gray-60); line-height: 1.6; }
+.flow-step-visual {
+  width: 64px; flex-shrink: 0; text-align: center;
+}
+
+.flow-arrow {
+  text-align: center; font-size: 18px; color: var(--orange-90);
+  padding: 2px 0;
+}
+
+/* ===== USER EXPERIENCE SECTIONS ===== */
+.exp-section {
+  padding: 32px 20px;
+}
+.exp-section.oshi-bg { background: linear-gradient(160deg, #fff8f0, #fffaf5); }
+.exp-section.fan-bg { background: linear-gradient(160deg, #f0f4ff, #f8f0ff); }
+
+.exp-user-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  border-radius: 999px; padding: 5px 14px; font-size: 12px; font-weight: 800;
+  margin-bottom: 10px;
+}
+.exp-user-tag.oshi { background: var(--orange-10); color: var(--orange-90); }
+.exp-user-tag.fan { background: #ede9fe; color: #7c3aed; }
+
+.exp-headline { font-size: 18px; font-weight: 900; color: var(--text-high); line-height: 1.45; margin-bottom: 6px; }
+.exp-subline { font-size: 13px; color: var(--gray-60); line-height: 1.65; margin-bottom: 20px; }
+
+.exp-benefits { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.exp-benefit {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: white; border-radius: 12px; padding: 12px 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.exp-benefit-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+.exp-benefit-title { font-size: 13px; font-weight: 800; color: var(--text-high); margin-bottom: 2px; }
+.exp-benefit-desc { font-size: 11px; color: var(--gray-60); line-height: 1.55; }
+
+/* ===== MINI PREVIEW CARDS ===== */
+.mini-preview {
+  background: white; border-radius: 16px; padding: 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08); overflow: hidden;
+}
+.mini-preview-label {
+  font-size: 10px; font-weight: 700; color: var(--gray-60);
+  letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px;
+}
+.mini-q-card {
+  background: var(--orange-5); border-radius: 10px; padding: 10px 12px; margin-bottom: 10px;
+  border-left: 3px solid var(--orange-90);
+}
+.mini-q-label { font-size: 9px; font-weight: 700; color: var(--orange-90); margin-bottom: 3px; }
+.mini-q-text { font-size: 13px; font-weight: 800; color: var(--text-high); line-height: 1.45; }
+
+.mini-answer-row { display: flex; align-items: flex-start; gap: 8px; }
+.mini-avatar {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #ffd6e8, #ffc8f0);
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+}
+.mini-answer-bubble {
+  flex: 1; background: var(--gray-5); border-radius: 0 10px 10px 10px;
+  padding: 8px 10px; font-size: 11px; color: var(--text-high); line-height: 1.55;
+}
+.mini-answer-name { font-size: 10px; font-weight: 700; color: var(--gray-60); margin-bottom: 3px; }
+
+.mini-fan-input {
+  background: var(--gray-5); border-radius: 10px; padding: 10px 12px; margin-bottom: 10px;
+}
+.mini-fan-q { font-size: 11px; font-weight: 700; color: var(--gray-60); margin-bottom: 6px; }
+.mini-fan-q strong { color: var(--text-high); font-size: 13px; display: block; margin-top: 2px; }
+.mini-fan-answer-area {
+  background: white; border: 1.5px solid var(--orange-90); border-radius: 8px;
+  padding: 8px 10px; font-size: 12px; color: var(--gray-60); line-height: 1.5;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.mini-send-btn {
+  background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+  border: none; border-radius: 999px; padding: 5px 12px;
+  font-size: 11px; font-weight: 700; color: white; white-space: nowrap;
+}
+.mini-pt-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border-radius: 999px; padding: 4px 10px; font-size: 11px; font-weight: 800;
+  color: #92400e; margin-top: 8px;
+}
+
+/* ===== WIN-WIN BANNER ===== */
+.winwin-section {
+  background: linear-gradient(135deg, #1a1a2e, #2d1b4e);
+  padding: 28px 20px; text-align: center;
+}
+.winwin-oshipon { font-size: 48px; margin-bottom: 12px; }
+.winwin-title {
+  font-size: 18px; font-weight: 900; color: white;
+  line-height: 1.5; margin-bottom: 8px;
+}
+.winwin-title span {
+  background: linear-gradient(to right, #ffcc55, #ff9500);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.winwin-sub { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 20px; }
+.winwin-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 24px; }
+.winwin-tag {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 999px; padding: 5px 14px; font-size: 12px; font-weight: 700; color: white;
+}
+.btn-winwin-cta {
+  width: 100%; height: 54px; border-radius: 999px;
+  background: linear-gradient(to right, #ffcc55, #ff9500);
+  border: none; font-size: 16px; font-weight: 800; color: white; cursor: pointer;
+  box-shadow: 0 4px 24px rgba(255,149,0,0.4);
+}
+
+/* ===== Q EXAMPLES ===== */
+.q-examples-section { padding: 32px 20px; background: var(--gray-5); }
+.q-examples-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.q-example-chip {
+  background: white; border-radius: 12px; padding: 12px 16px;
+  font-size: 13px; font-weight: 700; color: var(--text-high); line-height: 1.4;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  display: flex; align-items: center; gap: 10px;
+}
+.q-example-chip::before {
+  content: 'Q'; width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--grad-start), var(--grad-end));
+  color: white; font-size: 11px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ===== FINAL CTA ===== */
+.final-cta { padding: 32px 20px 40px; text-align: center; background: white; }
+.final-cta-title { font-size: 18px; font-weight: 900; color: var(--text-high); margin-bottom: 6px; line-height: 1.4; }
+.final-cta-sub { font-size: 13px; color: var(--gray-60); line-height: 1.65; margin-bottom: 24px; }
+.final-cta-btns { display: flex; flex-direction: column; gap: 10px; }
+.free-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #dcfce7; color: #166534; border-radius: 999px;
+  padding: 3px 10px; font-size: 11px; font-weight: 700; margin-bottom: 16px;
+}
+
+/* ===== OSHIPON DIVIDER ===== */
+.oshipon-divider {
+  text-align: center; padding: 20px 0 0;
+  font-size: 28px; opacity: 0.5;
+}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="status-bar">
+    <span class="time">9:41</span>
+    <div class="status-icons"><span>▌▌▌</span><span>WiFi</span><span>🔋</span></div>
+  </div>
+
+  <div class="scroll-area">
+
+    <!-- Header -->
+    <div class="top-header">
+      <div class="logo">
+        <span style="font-size:22px">🐾</span>
+        <span class="name">OSHIPO</span>
+      </div>
+      <button class="btn-login">ログイン</button>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="oshipon-hero">
+        <div class="oshipon-body">🐾</div>
+        <div class="hero-bubble">ファンって推しのことを<br>どのくらい知ってるんだぽん？🤔</div>
+      </div>
+
+      <div class="hero-tag">推しとファンをつなぐ質問サービス</div>
+      <div class="hero-title">
+        ファンの声を、<span>推しに届けよう。</span>
+      </div>
+      <div class="hero-sub">
+        推しへの質問にファンが回答。<br>
+        毎日、ファンの本音や想いが推しに届く。<br>
+        推しもファンも、ポイントがたまる。
+      </div>
+
+      <div class="hero-cta-group">
+        <button class="btn-cta-primary">🎤 推しとして登録する</button>
+        <button class="btn-cta-secondary">❤️ ファンとして登録する</button>
+        <div class="cta-note">✨ 完全無料・登録1分</div>
+      </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="section-wrap">
+      <div class="section-tag">HOW IT WORKS</div>
+      <div class="section-title">OSHIPOでできること、<br>3ステップでわかる</div>
+
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step-num">1</div>
+          <div class="flow-step-content">
+            <div class="flow-step-title">推しがファンへ質問をシェア</div>
+            <div class="flow-step-desc">OSHIPOが用意した「推しに関する質問」の中から1つ選んでXでシェア。ファンへの挑戦状を送ろう！</div>
+          </div>
+          <div class="flow-step-visual" style="font-size:32px;padding-top:2px">📢</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">2</div>
+          <div class="flow-step-content">
+            <div class="flow-step-title">ファンが回答</div>
+            <div class="flow-step-desc">ファンは推しへの想いを回答。「推しのここが好き！」という本音を言葉にできる場所。</div>
+          </div>
+          <div class="flow-step-visual" style="font-size:32px;padding-top:2px">💬</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">3</div>
+          <div class="flow-step-content">
+            <div class="flow-step-title">推しに回答が届く＆ポイントGET</div>
+            <div class="flow-step-desc">回答が届くたびに推しにポイントが貯まる。ファンも回答するだけでポイントGET。</div>
+          </div>
+          <div class="flow-step-visual" style="font-size:32px;padding-top:2px">🎁</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOR 推し -->
+    <div class="exp-section oshi-bg">
+      <div class="exp-user-tag oshi">🎤 推し（配信者）の場合</div>
+      <div class="exp-headline">ファンの本音が、<br>毎日届く。</div>
+      <div class="exp-subline">配信中のコメントでは拾いきれないファンの想いを、質問への回答という形で受け取れます。</div>
+
+      <div class="exp-benefits">
+        <div class="exp-benefit">
+          <div class="exp-benefit-icon">💌</div>
+          <div>
+            <div class="exp-benefit-title">ファンの意外な本音を知れる</div>
+            <div class="exp-benefit-desc">「推しと出会った日のこと覚えてる？」など、ファンの深い想いが届く</div>
+          </div>
+        </div>
+        <div class="exp-benefit">
+          <div class="exp-benefit-icon">🎙️</div>
+          <div>
+            <div class="exp-benefit-title">配信のトークネタになる</div>
+            <div class="exp-benefit-desc">「こんな回答もらったんだけど！」とそのまま配信で紹介できる</div>
+          </div>
+        </div>
+        <div class="exp-benefit">
+          <div class="exp-benefit-icon">🪙</div>
+          <div>
+            <div class="exp-benefit-title">回答が届くたびにポイントGET</div>
+            <div class="exp-benefit-desc">貯まったポイントはギフトカードなどに交換して活動に活かせる</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini preview: 推し体験 -->
+      <div class="mini-preview">
+        <div class="mini-preview-label">こんな回答が届きます</div>
+        <div class="mini-q-card">
+          <div class="mini-q-label">今日の質問</div>
+          <div class="mini-q-text">推しと出会った日のこと覚えてる？</div>
+        </div>
+        <div class="mini-answer-row">
+          <div class="mini-avatar">🌸</div>
+          <div class="mini-answer-bubble">
+            <div class="mini-answer-name">はなちゃんファン</div>
+            初めて配信を見たのが1年前で、そこからずっと追いかけてます！あの時の笑顔が忘れられなくて…これからも応援してます🌸
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOR ファン -->
+    <div class="exp-section fan-bg">
+      <div class="exp-user-tag fan">❤️ ファンの場合</div>
+      <div class="exp-headline">推しへの想いを、<br>ちゃんと伝えられる。</div>
+      <div class="exp-subline">配信のコメントでは流れてしまう想いも、回答という形で推しにちゃんと届けられます。</div>
+
+      <div class="exp-benefits">
+        <div class="exp-benefit">
+          <div class="exp-benefit-icon">💝</div>
+          <div>
+            <div class="exp-benefit-title">推しに読んでもらえる</div>
+            <div class="exp-benefit-desc">回答は推しに直接届く。推しがリアクションをくれることも</div>
+          </div>
+        </div>
+        <div class="exp-benefit">
+          <div class="exp-benefit-icon">✏️</div>
+          <div>
+            <div class="exp-benefit-title">推しへの想いを言葉にできる</div>
+            <div class="exp-benefit-desc">「推しの好きなところ」を改めて言葉にする、ファン活動の新しい形</div>
+          </div>
+        </div>
+        <div class="exp-benefit">
+          <div class="exp-benefit-icon">🪙</div>
+          <div>
+            <div class="exp-benefit-title">回答するだけでポイントGET</div>
+            <div class="exp-benefit-desc">推しへの想いを届けながら、自分もポイントが貯まる</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini preview: ファン体験 -->
+      <div class="mini-preview">
+        <div class="mini-preview-label">こんなふうに回答できます</div>
+        <div class="mini-fan-input">
+          <div class="mini-fan-q">
+            てんちゃんからの質問
+            <strong>推しの好きな食べ物は？</strong>
+          </div>
+          <div class="mini-fan-answer-area">
+            <span style="color:var(--text-high);font-weight:600">ラーメン！特に豚骨系が好きって言ってたよね😊</span>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="mini-pt-badge">🪙 回答で +50pt</div>
+          <button class="mini-send-btn">推しに届ける ›</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- WIN-WIN -->
+    <div class="winwin-section">
+      <div class="winwin-oshipon">🐾</div>
+      <div class="winwin-title">
+        推しもファンも、<br><span>みんなが嬉しい</span>サービスぽん！
+      </div>
+      <div class="winwin-sub">
+        利用料は一切かかりません。<br>
+        推しもファンも、回答が届くたびにポイントが貯まって<br>
+        ギフトカードなどに交換できます。
+      </div>
+      <div class="winwin-tags">
+        <span class="winwin-tag">✨ 完全無料</span>
+        <span class="winwin-tag">🪙 両者ポイントGET</span>
+        <span class="winwin-tag">🔒 安心・安全</span>
+        <span class="winwin-tag">📱 登録1分</span>
+      </div>
+      <button class="btn-winwin-cta" onclick="alert('登録画面へ遷移')">今すぐ無料で始める 🐾</button>
+    </div>
+
+    <!-- Q EXAMPLES -->
+    <div class="q-examples-section">
+      <div class="section-tag">QUESTION EXAMPLES</div>
+      <div class="section-title">こんな質問が<br>ファンに届きます</div>
+      <div class="q-examples-grid">
+        <div class="q-example-chip">推しと出会った日のこと覚えてる？</div>
+        <div class="q-example-chip">推しの好きな食べ物は？</div>
+        <div class="q-example-chip">推しの誕生日はいつ？</div>
+        <div class="q-example-chip">推しの配信で一番好きな瞬間は？</div>
+        <div class="q-example-chip">推しの「声」の魅力を一言で表すと？</div>
+        <div class="q-example-chip">推しが一番頑張っていると思うことを教えて！</div>
+      </div>
+    </div>
+
+    <!-- FINAL CTA -->
+    <div class="final-cta">
+      <div class="oshipon-divider">🐾</div>
+      <div style="margin-top:16px"></div>
+      <div class="free-badge">✅ 完全無料・登録1分</div>
+      <div class="final-cta-title">さあ、おしぽんと一緒に<br>はじめてみるぽん！</div>
+      <div class="final-cta-sub">推しもファンも、今日から新しいつながり方を。</div>
+      <div class="final-cta-btns">
+        <button class="btn-cta-primary" onclick="alert('推し登録へ')">🎤 推しとして登録する</button>
+        <button class="btn-cta-secondary" onclick="alert('ファン登録へ')">❤️ ファンとして登録する</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div style="margin-top:20px;text-align:center;font-size:12px;color:#999;">
+  TOP new — 推し・ファン両者向けリニューアル案
+</div>
+
+</body>
+</html>
