@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSHIPO｜推しとファンをつなぐ質問サービス</title>
+<style>
+#pw-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #f5f0eb;
+  display: flex; align-items: center; justify-content: center;
+}
+#pw-overlay.hidden { display: none; }
+.pw-box {
+  background: white; border-radius: 20px; padding: 32px 28px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12); text-align: center; width: 280px;
+}
+.pw-logo { font-size: 32px; margin-bottom: 8px; }
+.pw-title { font-size: 16px; font-weight: 700; color: #242424; margin-bottom: 4px; }
+.pw-sub { font-size: 12px; color: #5f5f5f; margin-bottom: 20px; }
+#pw-input {
+  width: 100%; height: 44px; border-radius: 10px;
+  border: 2px solid #dbdbdb; padding: 0 14px;
+  font-size: 14px; outline: none; margin-bottom: 10px; transition: border-color 0.2s;
+}
+#pw-input:focus { border-color: #fea714; }
+#pw-input.error { border-color: #ef627f; }
+#pw-btn {
+  width: 100%; height: 44px; border-radius: 999px;
+  background: linear-gradient(to right, #ff9500, #ef627f);
+  border: none; color: white; font-size: 14px; font-weight: 700; cursor: pointer;
+}
+#pw-error { font-size: 11px; color: #ef627f; margin-top: 6px; min-height: 16px; }
+</style>
+<div id="pw-overlay">
+  <div class="pw-box">
+    <div class="pw-logo">🐾</div>
+    <div class="pw-title">OSHIPO プレビュー</div>
+    <div class="pw-sub">パスワードを入力してください</div>
+    <input id="pw-input" type="password" placeholder="パスワード" onkeydown="if(event.key==='Enter')checkPw()">
+    <button id="pw-btn" onclick="checkPw()">確認</button>
+    <div id="pw-error"></div>
+  </div>
+</div>
+<script>
+(function() {
+  if (sessionStorage.getItem('oshipo_auth') === '1') {
+    document.getElementById('pw-overlay').classList.add('hidden');
+  }
+})();
+function checkPw() {
+  var v = document.getElementById('pw-input').value;
+  if (v === 'oshipo_qa') {
+    sessionStorage.setItem('oshipo_auth', '1');
+    document.getElementById('pw-overlay').classList.add('hidden');
+  } else {
+    document.getElementById('pw-input').classList.add('error');
+    document.getElementById('pw-error').textContent = 'パスワードが違います';
+    setTimeout(function(){ document.getElementById('pw-input').classList.remove('error'); }, 1000);
+  }
+}
+</script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --orange: #fea714;
+  --orange-light: #ffedd0;
+  --orange-pale: #fff6e7;
+  --gray-dark: #414141;
+  --gray-mid: #5f5f5f;
+  --gray-line: #dbdbdb;
+  --gray-bg: #ececec;
+  --text: #242424;
+  --grad-start: #ff9500;
+  --grad-end: #ef627f;
+  --purple: #7c3aed;
+  --purple-light: #ede9fe;
+}
+body {
+  font-family: "Hiragino Sans", "M PLUS Rounded 1c", sans-serif;
+  background: #dedad5;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 24px 16px 48px; min-height: 100vh;
+}
+.phone {
+  width: 390px; background: white; border-radius: 44px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25); overflow: hidden;
+}
+.status-bar {
+  background: white; padding: 14px 24px 0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.status-bar .time { font-size: 15px; font-weight: 700; color: #111; }
+.status-icons { display: flex; gap: 6px; align-items: center; font-size: 12px; color: #111; }
+.scroll-area { overflow-y: auto; max-height: 820px; }
+
+/* ===== HEADER ===== */
+.top-header {
+  background: white; padding: 10px 20px 12px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--gray-bg);
+  position: sticky; top: 0; z-index: 10;
+}
+.logo { display: flex; align-items: center; gap: 6px; }
+.logo-text {
+  font-size: 20px; font-weight: 900; letter-spacing: -0.5px;
+  background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.btn-login {
+  border: 1.5px solid var(--gray-line); border-radius: 999px;
+  padding: 6px 16px; font-size: 12px; font-weight: 700;
+  color: var(--gray-mid); background: transparent; cursor: pointer;
+}
+
+/* ===== HERO ===== */
+.hero {
+  background: linear-gradient(170deg, #fff8f0 0%, #fff2f6 55%, #fdf0ff 100%);
+  padding: 32px 24px 36px; text-align: center; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -60px; right: -60px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,149,0,0.09), transparent 70%);
+}
+.hero::after {
+  content: ''; position: absolute; bottom: -50px; left: -50px;
+  width: 160px; height: 160px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(239,98,127,0.09), transparent 70%);
+}
+.hero-mascot {
+  width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 8px;
+  background: linear-gradient(135deg, var(--grad-start), var(--grad-end));
+  display: flex; align-items: center; justify-content: center; font-size: 44px;
+  box-shadow: 0 8px 24px rgba(255,149,0,0.28);
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+.hero-service-tag {
+  font-size: 11px; font-weight: 700; color: var(--gray-mid);
+  margin-bottom: 16px; letter-spacing: 0.04em;
+}
+.hero-quote {
+  font-size: 15px; font-weight: 800; color: var(--text);
+  background: white; border-radius: 12px; padding: 10px 16px;
+  margin: 0 0 14px; display: inline-block;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  border-left: 3px solid var(--orange);
+  text-align: left; width: 100%;
+}
+.hero-copy {
+  font-size: 13px; color: var(--gray-mid); line-height: 1.8; margin-bottom: 20px;
+}
+.hero-social-proof {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin-bottom: 22px;
+}
+.avatar-stack { display: flex; }
+.avatar-stack-item {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 2px solid white; margin-left: -7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+}
+.avatar-stack-item:first-child { margin-left: 0; }
+.proof-text { font-size: 12px; font-weight: 700; color: var(--gray-mid); }
+.proof-text strong { color: var(--orange); }
+.hero-btns { display: flex; flex-direction: column; gap: 10px; }
+.btn-primary {
+  width: 100%; height: 52px; border-radius: 999px;
+  background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+  border: none; color: white; font-size: 15px; font-weight: 800;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 5px 20px rgba(255,149,0,0.32); transition: transform 0.1s;
+}
+.btn-primary:active { transform: scale(0.97); }
+.btn-secondary {
+  width: 100%; height: 52px; border-radius: 999px;
+  background: white; border: 2px solid var(--orange);
+  color: var(--orange); font-size: 15px; font-weight: 800;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: background 0.15s;
+}
+.btn-secondary:active { background: var(--orange-pale); }
+.free-note { text-align: center; font-size: 11px; color: var(--gray-mid); margin-top: 8px; }
+
+/* ===== SECTION COMMON ===== */
+.section { padding: 32px 20px; }
+.section.bg-gray { background: var(--gray-bg); }
+.section.bg-oshi { background: linear-gradient(160deg, #fff8f0, #fffcf5); }
+.section.bg-fan  { background: linear-gradient(160deg, #f3f0ff, #fff0f6); }
+.section-eyebrow {
+  font-size: 10px; font-weight: 700; color: var(--orange);
+  letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 4px;
+}
+.section-heading {
+  font-size: 20px; font-weight: 900; color: var(--text); line-height: 1.4; margin-bottom: 20px;
+}
+.user-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  border-radius: 999px; padding: 4px 12px;
+  font-size: 11px; font-weight: 800; margin-bottom: 6px;
+}
+.user-tag.oshi { background: var(--orange-light); color: var(--orange); }
+.user-tag.fan  { background: var(--purple-light); color: var(--purple); }
+.exp-heading {
+  font-size: 22px; font-weight: 900; color: var(--text);
+  line-height: 1.4; margin-bottom: 24px;
+}
+
+/* ===== TESTIMONIALS ===== */
+.voice-cards { display: flex; flex-direction: column; gap: 12px; margin-top: 18px; }
+.voice-card {
+  background: var(--gray-bg); border-radius: 16px; padding: 14px 16px;
+  position: relative; overflow: hidden;
+}
+.voice-card::after {
+  content: '\201C'; position: absolute; top: 4px; right: 12px;
+  font-size: 48px; font-weight: 900; line-height: 1;
+  color: var(--orange-light); font-family: Georgia, serif; pointer-events: none;
+}
+.voice-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.voice-avatar {
+  width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+.voice-name { font-size: 13px; font-weight: 800; color: var(--text); }
+.voice-meta { display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+.voice-meta-text { font-size: 11px; color: var(--gray-mid); }
+.voice-badge {
+  font-size: 10px; font-weight: 700; background: var(--orange-light);
+  color: var(--orange); border-radius: 999px; padding: 2px 7px;
+}
+.voice-body { font-size: 12px; color: var(--gray-dark); line-height: 1.75; }
+.voice-hl { font-weight: 800; color: var(--text); border-bottom: 2px solid var(--orange-light); }
+
+/* ===== BENEFIT ITEMS ===== */
+.benefits { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+.benefit {
+  background: white; border-radius: 14px; padding: 14px 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+.benefit-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+.benefit-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+.benefit-title { font-size: 13px; font-weight: 800; color: var(--text); line-height: 1.4; }
+.benefit-desc { font-size: 12px; color: var(--gray-mid); line-height: 1.65; }
+
+/* question chips inside benefit */
+.q-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.q-chip {
+  background: var(--orange-pale); border: 1px solid var(--orange-light);
+  border-radius: 999px; padding: 4px 10px;
+  font-size: 11px; font-weight: 600; color: var(--orange); white-space: nowrap;
+}
+
+/* ===== MINI RESPONSE PREVIEW ===== */
+.preview-label {
+  font-size: 11px; font-weight: 700; color: var(--gray-mid);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+}
+.preview-label::before, .preview-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--gray-line);
+}
+.response-cards { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.response-card {
+  background: white; border-radius: 12px; padding: 12px 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.response-q {
+  font-size: 10px; font-weight: 700; color: var(--orange);
+  margin-bottom: 6px; display: flex; align-items: center; gap: 4px;
+}
+.response-row { display: flex; align-items: flex-start; gap: 8px; }
+.response-avatar {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+}
+.response-bubble {
+  flex: 1; background: var(--gray-bg); border-radius: 2px 10px 10px 10px;
+  padding: 7px 10px; font-size: 11px; color: var(--text); line-height: 1.6;
+}
+.response-name { font-size: 10px; font-weight: 700; color: var(--gray-mid); margin-bottom: 2px; }
+
+/* ===== FAN INPUT PREVIEW ===== */
+.fan-preview {
+  background: white; border-radius: 14px; padding: 14px 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06); margin-bottom: 12px;
+}
+.fan-preview-from { font-size: 10px; font-weight: 700; color: var(--gray-mid); margin-bottom: 4px; }
+.fan-preview-q { font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 10px; line-height: 1.4; }
+.fan-preview-input {
+  background: var(--gray-bg); border-radius: 8px; padding: 10px 12px;
+  font-size: 12px; color: var(--text); line-height: 1.55; margin-bottom: 10px;
+  border: 1.5px solid var(--orange-light);
+}
+.fan-preview-footer { display: flex; justify-content: space-between; align-items: center; }
+.fan-preview-pt { font-size: 11px; font-weight: 700; color: var(--orange); }
+.fan-preview-btn {
+  background: linear-gradient(to right, var(--grad-start), var(--grad-end));
+  border: none; border-radius: 999px; padding: 6px 14px;
+  font-size: 11px; font-weight: 700; color: white; cursor: pointer;
+}
+
+/* ===== Q EXAMPLES ===== */
+.q-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+.q-item {
+  background: white; border-radius: 11px; padding: 11px 14px;
+  font-size: 13px; font-weight: 700; color: var(--text);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  display: flex; align-items: center; gap: 10px;
+}
+.q-num {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--grad-start), var(--grad-end));
+  color: white; font-size: 10px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ===== SECTION CTA ===== */
+.section-cta { padding: 0 20px 32px; }
+
+/* ===== DIVIDER ===== */
+.divider {
+  height: 1px; background: var(--gray-bg); margin: 0 20px;
+}
+
+/* ===== FINAL CTA ===== */
+.final-cta {
+  background: linear-gradient(155deg, #1a1a2e, #2d1b4e);
+  padding: 36px 24px 44px; text-align: center;
+}
+.final-mascot { font-size: 44px; margin-bottom: 14px; }
+.final-heading {
+  font-size: 20px; font-weight: 900; color: white;
+  line-height: 1.45; margin-bottom: 22px;
+}
+.final-heading .grad {
+  background: linear-gradient(to right, #ffcc55, #ff9500);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.final-btns { display: flex; flex-direction: column; gap: 10px; }
+.btn-primary-white {
+  width: 100%; height: 52px; border-radius: 999px;
+  background: white; border: none;
+  color: var(--orange); font-size: 15px; font-weight: 800;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 4px 16px rgba(255,255,255,0.2);
+}
+.btn-secondary-outline {
+  width: 100%; height: 52px; border-radius: 999px;
+  background: transparent; border: 2px solid rgba(255,255,255,0.4);
+  color: white; font-size: 15px; font-weight: 800;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.final-note { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 12px; }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span class="time">9:41</span>
+    <div class="status-icons"><span>▌▌▌</span><span>WiFi</span><span>🔋</span></div>
+  </div>
+
+  <div class="scroll-area">
+
+    <!-- HEADER -->
+    <div class="top-header">
+      <div class="logo">
+        <span style="font-size:22px">🐾</span>
+        <span class="logo-text">OSHIPO</span>
+      </div>
+      <button class="btn-login">ログイン</button>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-mascot">🐾</div>
+      <div class="hero-service-tag">推しとファンをつなぐ質問サービス</div>
+      <div class="hero-quote">「こんなに想ってくれてたんだ」</div>
+      <div class="hero-copy">
+        SNSや配信では流れていく声が、ここに届く。<br>
+        ファンの本音と、毎日出会える場所。
+      </div>
+      <div class="hero-social-proof">
+        <div class="avatar-stack">
+          <div class="avatar-stack-item" style="background:linear-gradient(135deg,#ffd6a5,#ffb347)">🎤</div>
+          <div class="avatar-stack-item" style="background:linear-gradient(135deg,#c9b8ff,#a78bfa)">🎵</div>
+          <div class="avatar-stack-item" style="background:linear-gradient(135deg,#fda4af,#fb7185)">🎮</div>
+          <div class="avatar-stack-item" style="background:linear-gradient(135deg,#86efac,#4ade80)">🎨</div>
+          <div class="avatar-stack-item" style="background:linear-gradient(135deg,#7dd3fc,#38bdf8)">🌟</div>
+        </div>
+        <div class="proof-text"><strong>50人以上</strong>の推しがすでに利用中！</div>
+      </div>
+      <div class="hero-btns">
+        <button class="btn-primary">🎤 推し（配信者）として登録する</button>
+        <button class="btn-secondary">❤️ ファンとして登録する</button>
+        <div class="free-note">✨ 完全無料・登録1分</div>
+      </div>
+    </div>
+
+    <!-- 推しの声 -->
+    <div class="section">
+      <div class="section-eyebrow">VOICES</div>
+      <div class="section-heading">ご利用中の推しの声</div>
+      <div class="voice-cards">
+        <div class="voice-card">
+          <div class="voice-header">
+            <div class="voice-avatar" style="background:linear-gradient(135deg,#ffd6a5,#ffb347)">🎤</div>
+            <div>
+              <div class="voice-name">てんちゃん</div>
+              <div class="voice-meta">
+                <span class="voice-meta-text">歌い手・YouTube</span>
+                <span class="voice-badge">登録2ヶ月</span>
+              </div>
+            </div>
+          </div>
+          <div class="voice-body">ファンがどんな気持ちで応援してくれているか、<span class="voice-hl">初めてちゃんと知れた気がします</span>。じっくり書いてくれた言葉が届くので毎日読むのが楽しみになりました。</div>
+        </div>
+        <div class="voice-card">
+          <div class="voice-header">
+            <div class="voice-avatar" style="background:linear-gradient(135deg,#c9b8ff,#a78bfa)">🎮</div>
+            <div>
+              <div class="voice-name">りくくん</div>
+              <div class="voice-meta">
+                <span class="voice-meta-text">ゲーム実況・Twitch</span>
+                <span class="voice-badge">登録1ヶ月</span>
+              </div>
+            </div>
+          </div>
+          <div class="voice-body">回答を配信で紹介したらファンがめちゃくちゃ喜んでくれて。<span class="voice-hl">トークネタにも困らなくなりました</span>。最初シェアするのが少し恥ずかしかったけど、やってよかったです。</div>
+        </div>
+        <div class="voice-card">
+          <div class="voice-header">
+            <div class="voice-avatar" style="background:linear-gradient(135deg,#fda4af,#fb7185)">🌸</div>
+            <div>
+              <div class="voice-name">みおな</div>
+              <div class="voice-meta">
+                <span class="voice-meta-text">Vtuber・YouTube</span>
+                <span class="voice-badge">登録3ヶ月</span>
+              </div>
+            </div>
+          </div>
+          <div class="voice-body">「私のことこんなに深く見てくれてたんだ」って感動する回答が来て、<span class="voice-hl">活動の励みになっています</span>。ファンのことがもっと好きになりました🌸</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 推しセクション -->
+    <div class="section bg-oshi">
+      <div class="user-tag oshi">🎤 推し（配信者）の方へ</div>
+      <div class="section-eyebrow" style="margin-top:6px">OSHIPOでできること</div>
+      <div class="exp-heading">ファンの温かい声が、<br>毎日届く。</div>
+
+      <div class="benefits">
+        <div class="benefit">
+          <div class="benefit-head">
+            <div class="benefit-icon">💌</div>
+            <div class="benefit-title">ファンの意外な本音を知れる</div>
+          </div>
+          <div class="benefit-desc">配信のコメントでは拾いきれない、ファンが書いてくれた言葉が届きます。</div>
+          <div class="q-chips">
+            <span class="q-chip">推しと出会った日のこと覚えてる？</span>
+            <span class="q-chip">推しの好きな食べ物は？</span>
+            <span class="q-chip">推しの配信で一番好きな瞬間は？</span>
+          </div>
+        </div>
+
+        <div class="benefit">
+          <div class="benefit-head">
+            <div class="benefit-icon">🪙</div>
+            <div class="benefit-title">ファンへの負担ゼロで、ポイントGET</div>
+          </div>
+          <div class="benefit-desc">ファンの金銭的な負担は一切なし。回答するだけでファンもポイントをもらえるから、気軽にシェアできます。貯まったポイントはギフトカードなどに交換して活動に活かせます。</div>
+        </div>
+
+        <div class="benefit">
+          <div class="benefit-head">
+            <div class="benefit-icon">🛡️</div>
+            <div class="benefit-title">温かい回答だけが届く</div>
+          </div>
+          <div class="benefit-desc">不快な内容は運営が自動で取り除くので、ファンの温かい想いだけを受け取れます。毎日、気持ちよく読めます。</div>
+        </div>
+
+        <div class="benefit">
+          <div class="benefit-head">
+            <div class="benefit-icon">🎙️</div>
+            <div class="benefit-title">配信のトークネタになる</div>
+          </div>
+          <div class="benefit-desc">「こんな回答もらったんだけど！」とそのまま配信で紹介できます。ファンも取り上げてもらえることを喜びます。</div>
+        </div>
+      </div>
+
+      <div class="preview-label">ファンからこんな回答が届きます</div>
+      <div class="response-cards">
+        <div class="response-card">
+          <div class="response-q">📌 推しと出会った日のこと覚えてる？</div>
+          <div class="response-row">
+            <div class="response-avatar" style="background:linear-gradient(135deg,#ffd6e8,#ffc0f0)">🌸</div>
+            <div class="response-bubble">
+              <div class="response-name">はなちゃんファン</div>
+              初めて配信を見たのが1年前で、そこからずっと追いかけてます！あの時の笑顔が忘れられなくて…これからも応援してます🌸
+            </div>
+          </div>
+        </div>
+        <div class="response-card">
+          <div class="response-q">📌 推しの配信で一番好きな瞬間は？</div>
+          <div class="response-row">
+            <div class="response-avatar" style="background:linear-gradient(135deg,#bfdbfe,#93c5fd)">🌊</div>
+            <div class="response-bubble">
+              <div class="response-name">さくらいファン</div>
+              歌枠で目閉じて歌ってる瞬間が一番好きです。世界観に引き込まれるというか、毎回感動してしまいます。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-cta">
+      <button class="btn-primary">🎤 推し（配信者）として登録する</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ファンセクション -->
+    <div class="section bg-fan">
+      <div class="user-tag fan">❤️ ファンの方へ</div>
+      <div class="section-eyebrow" style="margin-top:6px">OSHIPOでできること</div>
+      <div class="exp-heading">推しへの想いを、<br>言葉にできる場所。</div>
+
+      <div class="benefits">
+        <div class="benefit">
+          <div class="benefit-head">
+            <div class="benefit-icon">🎭</div>
+            <div class="benefit-title">匿名だから、照れずに伝えられる</div>
+          </div>
+          <div class="benefit-desc">「推しのここが好き」って、なかなか面と向かっては言えないことも。匿名だから、本音の気持ちをそのまま届けられます。</div>
+        </div>
+
+        <div class="benefit">
+          <div class="benefit-head">
+            <div class="benefit-icon">💬</div>
+            <div class="benefit-title">配信では流れない言葉で、推しに届く</div>
+          </div>
+          <div class="benefit-desc">配信のコメントでは流れてしまう想いも、推しにちゃんと届けられます。あなたの想いが、少しずつ積み重なっていきます。</div>
+        </div>
+
+        <div class="benefit">
+          <div class="benefit-head">
+            <div class="benefit-icon">🏅</div>
+            <div class="benefit-title">続けるほど増える、推し愛の証</div>
+          </div>
+          <div class="benefit-desc">回答を続けるとバッジを獲得。バッジが増えるほどファンとしての称号が上がり、さらに嬉しいことが待っています。</div>
+        </div>
+
+        <div class="benefit">
+          <div class="benefit-head">
+            <div class="benefit-icon">🪙</div>
+            <div class="benefit-title">回答するだけで、自分も推しもポイントGET</div>
+          </div>
+          <div class="benefit-desc">あなたが回答するたびに、自分にも推しにもポイントが貯まる。お金はかからない。いいことしかない。</div>
+        </div>
+      </div>
+
+      <div class="preview-label">こんな質問があなたに届きます</div>
+      <div class="q-list">
+        <div class="q-item"><div class="q-num">Q</div>推しと出会った日のこと覚えてる？</div>
+        <div class="q-item"><div class="q-num">Q</div>推しの好きな食べ物は？</div>
+        <div class="q-item"><div class="q-num">Q</div>推しの誕生日はいつ？</div>
+        <div class="q-item"><div class="q-num">Q</div>推しの「声」の魅力を一言で表すと？</div>
+        <div class="q-item"><div class="q-num">Q</div>推しが一番頑張っていると思うことを教えて！</div>
+      </div>
+    </div>
+
+    <div class="section-cta" style="background:linear-gradient(160deg,#f3f0ff,#fff0f6)">
+      <button class="btn-primary" style="background:linear-gradient(to right,#7c3aed,#ef627f);box-shadow:0 5px 20px rgba(124,58,237,0.28)">❤️ ファンとして登録する</button>
+    </div>
+
+    <!-- FINAL CTA -->
+    <div class="final-cta">
+      <div class="final-mascot">🐾</div>
+      <div class="final-heading">
+        OSHIPOをはじめてみよう<br>
+        <span class="grad">推しもファンも、今日から。</span>
+      </div>
+      <div class="final-btns">
+        <button class="btn-primary-white">🎤 推し（配信者）として登録する</button>
+        <button class="btn-secondary-outline">❤️ ファンとして登録する</button>
+      </div>
+      <div class="final-note">✨ 完全無料・登録1分</div>
+    </div>
+
+  </div>
+</div>
+
+<div style="margin-top:20px;text-align:center;font-size:12px;color:#999;">
+  TOP v3 — ワイヤーフレーム反映版
+</div>
+</body>
+</html>
