@@ -355,6 +355,54 @@ body {
   background: var(--gray-5); border: none; font-size: 14px; font-weight: 700; color: var(--gray-60); cursor: pointer;
 }
 
+/* ===== QUESTION CHALLENGE ===== */
+.q-challenge-wrap { margin: 0 12px; overflow: hidden; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.10); }
+.q-challenge-header {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  padding: 16px 16px 14px;
+}
+.q-challenge-eyebrow {
+  font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.45);
+  letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px;
+}
+.q-challenge-title {
+  font-size: 14px; font-weight: 700; color: white; line-height: 1.55; margin-bottom: 10px;
+}
+.q-pt-strip {
+  background: rgba(255,165,0,0.18); border: 1px solid rgba(255,165,0,0.35);
+  border-radius: 8px; padding: 8px 12px; line-height: 1.6;
+}
+.q-pt-main { font-size: 13px; font-weight: 700; color: #ffcc55; }
+.q-pt-sub { font-size: 11px; color: rgba(255,204,85,0.75); }
+.q-select-list {
+  background: white; padding: 12px 12px 4px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.q-select-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; border-radius: 10px;
+  border: 2px solid var(--gray-10); cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.q-select-item.selected { border-color: var(--orange-90); background: var(--orange-5); }
+.q-radio {
+  width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid var(--gray-20);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.q-select-item.selected .q-radio { border-color: var(--orange-90); background: var(--orange-90); }
+.q-radio::after {
+  content: ''; width: 7px; height: 7px; border-radius: 50%;
+  background: white; display: none;
+}
+.q-select-item.selected .q-radio::after { display: block; }
+.q-select-text { font-size: 14px; font-weight: 700; color: var(--text-high); line-height: 1.4; }
+.q-bottom-note {
+  text-align: center; font-size: 11px; color: var(--gray-60);
+  padding: 4px 0 12px; line-height: 1.5;
+}
+
 /* ===== POINT TOAST ===== */
 .pt-toast {
   position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-20px);
@@ -432,17 +480,31 @@ body {
       <div class="profile-link">ファンからのすべての回答を見る ›</div>
     </div>
 
-    <!-- Question -->
-    <div class="section">
-      <div class="section-title"><span style="font-size:18px">💬</span> 最初にファンに聞いてみよう！</div>
-      <div class="proposed-q-card">
-        <div class="proposed-q-header">
-          <span class="proposed-q-label">OSHIPOからの提案質問</span>
-          <span class="proposed-q-badge">新規ユーザー限定</span>
+    <!-- Question Challenge -->
+    <div style="padding: 0 12px 0;">
+      <div class="q-challenge-wrap">
+        <div class="q-challenge-header">
+          <div class="q-challenge-eyebrow">🎯 ファン診断</div>
+          <div class="q-challenge-title">ファンがあなたのことをどれくらい知ってるか、聞いてみよう！</div>
+          <div class="q-pt-strip">
+            <div class="q-pt-main">🎁 最初の挑戦状を送ると <strong>500pt</strong> プレゼント！</div>
+            <div class="q-pt-sub">さらにファンから回答が届くたびにポイントが貯まる</div>
+          </div>
         </div>
-        <div class="proposed-q-body">
-          <div class="proposed-q-text">推しに言われてみたい一言を教えて！</div>
-          <div class="proposed-q-note">この質問をXでシェアするとファンから回答が届きます</div>
+        <div class="q-select-list">
+          <div class="q-select-item selected" id="q0" onclick="selectQ(0)">
+            <div class="q-radio"></div>
+            <div class="q-select-text">推しと出会った日のこと覚えてる？</div>
+          </div>
+          <div class="q-select-item" id="q1" onclick="selectQ(1)">
+            <div class="q-radio"></div>
+            <div class="q-select-text">推しの好きな食べ物は？</div>
+          </div>
+          <div class="q-select-item" id="q2" onclick="selectQ(2)">
+            <div class="q-radio"></div>
+            <div class="q-select-text">推しの誕生日はいつ？</div>
+          </div>
+          <div class="q-bottom-note">まずは3つの中から1つ選んでファンに聞いてみよう</div>
         </div>
       </div>
     </div>
@@ -450,17 +512,16 @@ body {
     <!-- Share CTA -->
     <div class="btn-cta-wrap">
       <button class="btn-cta" id="share-btn" onclick="doShare()">
-        <span style="font-size:14px;font-weight:900">𝕏</span> 質問をXでシェアする
+        <span style="font-size:14px;font-weight:900">𝕏</span> ファンに挑戦状を送る
       </button>
     </div>
 
     <!-- Answer section -->
     <div class="section" style="padding-bottom:16px;" id="answer-section">
-      <div class="section-title"><span style="font-size:18px">🐾</span> 新着のファンからの回答</div>
+      <div class="section-title" id="answer-section-title"><span style="font-size:18px">💬</span> こんな回答が届くかも！</div>
       <div id="answer-area">
-        <!-- Sakura (sample) response — visible from start -->
         <div class="answer-card" id="fan-answer-card">
-          <div class="sakura-badge">🌸 OSHIPOからのお試し回答</div>
+          <div class="sakura-badge" id="sakura-badge">✨ 回答のプレビュー</div>
           <div class="answer-card-top">
             <div class="fan-avatar">🌸</div>
             <div>
@@ -468,12 +529,11 @@ body {
               <div class="fan-time">たった今</div>
             </div>
           </div>
-          <div class="answer-text">「今日もライブ楽しかったよ！またね」って言ってほしいな〜！てんちゃんの声が大好きだから毎日配信してほしい♡</div>
+          <div class="answer-text">初めて配信を見たのが1年前で、そこからずっと追いかけてます！あの時の笑顔が忘れられなくて…これからも応援してます🌸</div>
           <div class="answer-actions">
             <button class="btn-react" id="react-btn" onclick="doReact()" disabled style="opacity:0.35">❤️ いいね</button>
             <button class="btn-share-answer" id="share-answer-btn" onclick="doShareAnswer()" disabled style="opacity:0.35">📤 回答をシェア</button>
           </div>
-          <button class="btn-confirm-read" id="confirm-btn" onclick="onConfirmRead()">✓ この回答を確認した</button>
         </div>
       </div>
     </div>
@@ -492,223 +552,101 @@ body {
 </div>
 
 <div style="margin-top:20px;text-align:center;font-size:12px;color:#999;">
-  v2 — 次やることバナー形式。チュートリアルなし、サクラ回答つき
+  v2 — 次やることバナー形式。最初のシェアにフォーカス
 </div>
 
 <script>
 /*
  * STATE MACHINE (v2)
- * 0: OSHIPOを知ろう     → バナークリック → ツールチップ（「分かった！」で state=1）
- * 1: 最初の質問をシェア  → バナークリック → シェアボタンにフォーカス
- * 2: 回答を確認しよう   → バナークリック → 回答カードにフォーカス（「確認した」で state=3）
- * 3: リアクションしよう → バナークリック → リアクションボタンにフォーカス
- * 4: 回答をシェアしよう → バナークリック → 回答シェアボタンにフォーカス
- * 5: 完了
+ * 0: シェア前（質問選択 → 挑戦状を送る）
+ * 1: シェア済み（回答プレビューが活性化）
  */
 var state = 0;
 var totalPt = 0;
+var selectedQ = 0;
 
-var bannerSteps = [
-  { icon: '📖', text: 'まずOSHIPOのことを知ろう！', tip: 'learn' },
-  { icon: '📢', text: '最初の質問をXでシェアしてみよう', tip: 'share', target: 'share-btn' },
-  { icon: '💬', text: 'ファンからの回答を確認してみよう', tip: 'answer', target: 'fan-answer-card' },
-  { icon: '❤️', text: '回答にリアクションしてみよう', tip: 'react', target: 'react-btn' },
-  { icon: '📤', text: '最初の回答をXでシェアしてみよう', tip: 'shareAnswer', target: 'share-answer-btn' },
-];
-
-var tipsData = {
-  learn: {
-    mascot: '🐾',
-    title: 'OSHIPOってどんなサービス？',
-    body: '<strong>OSHIPOはファンの「想い」が届くサービスです。</strong><br><br>あなたのファンに毎日1問、あなた（推し）に関する質問が出題されます。ファンが回答すると、その内容があなたに届きます。<br><br>配信のコメントでは拾いきれない<strong>ファンの本音や想い</strong>を受け取ることができます💕<br><br>届いた回答は配信のトークネタにもなって一石二鳥！<strong>完全無料</strong>で使えます。',
-    action: true,
-    actionLabel: '分かった！始めてみる →'
-  },
-  share: {
-    mascot: '📢',
-    title: 'シェアするとどうなるの？',
-    body: 'Xで質問をシェアすることで、ファンに「OSHIPOで回答できるよ」と伝わります。<br><br>あなたから直接紹介されることで、<strong>ファンも安心して回答</strong>しやすくなります✨<br><br>届いた回答からファンの意外な想いや本音を知ることができるかも！',
-    action: false
-  },
-  answer: {
-    mascot: '💬',
-    title: '回答はどこで確認できるの？',
-    body: 'ファンからの新着回答は<strong>「新着のファンからの回答」</strong>で確認できます。<br><br>まだ回答が届いていない場合は、Xで質問をもう一度シェアしたり、配信で「OSHIPOで質問に答えてみて！」と紹介してみましょう🎤<br><br>あなたから直接紹介されることで、ファンも回答しやすくなります！',
-    action: false
-  },
-  react: {
-    mascot: '❤️',
-    title: 'リアクションってなに？',
-    body: '回答に❤️を押すと、<strong>あなたが読んだことがファンに伝わります。</strong><br><br>「ちゃんと見てくれてるんだ」とファンが実感できると、次の回答へのモチベーションに繋がります🥺<br><br>ワンタップで送れるので、気軽にリアクションしてみてください！',
-    action: false
-  },
-  shareAnswer: {
-    mascot: '📤',
-    title: '回答のシェアって？',
-    body: '届いた回答をXでシェアすることで、<strong>あなたの魅力が他のファンにも伝わります</strong>🌟<br><br>ファンにとっても、推しに取り上げてもらえることが一番の喜びです💕<br><br>その回答を見た別のファンがさらに回答してくれるかも！',
-    action: false
+function selectQ(idx) {
+  for (var i = 0; i < 3; i++) {
+    document.getElementById('q' + i).classList.toggle('selected', i === idx);
   }
-};
+  selectedQ = idx;
+}
 
 function renderBanner() {
   var el = document.getElementById('next-banner');
-  if (state >= 5) {
+  if (state >= 1) {
     el.className = 'next-action-banner done';
     el.innerHTML = `
       <div class="next-banner-icon">🎉</div>
       <div class="next-banner-content">
         <div class="next-banner-label">完了</div>
-        <div class="next-banner-text">オンボーディング完了！毎日回答をチェックしよう</div>
+        <div class="next-banner-text">挑戦状を送りました！回答が届くのを楽しみに待とう</div>
       </div>`;
     return;
   }
-  var b = bannerSteps[state];
   el.className = 'next-action-banner';
   el.innerHTML = `
-    <div class="next-banner-icon">${b.icon}</div>
+    <div class="next-banner-icon">🎯</div>
     <div class="next-banner-content">
       <div class="next-banner-label">次やること</div>
-      <div class="next-banner-text">${b.text}</div>
+      <div class="next-banner-text">ファンに挑戦状を送ってみよう！</div>
     </div>
-    <span class="next-banner-arrow">›</span>
-    <button class="next-banner-tip-btn" onclick="event.stopPropagation(); openTips('${b.tip}')">?</button>`;
+    <span class="next-banner-arrow">›</span>`;
 }
 
 function onBannerClick() {
   if (state === 0) {
-    openTips('learn');
-    return;
+    document.getElementById('share-btn').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(function() {
+      document.getElementById('share-btn').classList.add('guide-focus-btn');
+      setTimeout(function() { document.getElementById('share-btn').classList.remove('guide-focus-btn'); }, 2500);
+    }, 400);
   }
-  var b = bannerSteps[state];
-  if (b && b.target) {
-    focusTarget(b.target);
-  }
-}
-
-function focusTarget(id) {
-  clearAllFocus();
-  var el = document.getElementById(id);
-  if (!el) return;
-  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  setTimeout(function() {
-    if (id === 'react-btn' || id === 'share-answer-btn') {
-      el.classList.add('guide-focus-btn');
-    } else {
-      el.classList.add('guide-focus');
-    }
-    setTimeout(function() { clearAllFocus(); }, 3000);
-  }, 400);
-}
-
-function clearAllFocus() {
-  ['share-btn', 'fan-answer-card', 'react-btn', 'share-answer-btn'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) { el.classList.remove('guide-focus', 'guide-focus-btn'); }
-  });
-}
-
-function openTips(key) {
-  var d = tipsData[key];
-  document.getElementById('sheet-mascot').textContent = d.mascot;
-  document.getElementById('sheet-title').textContent = d.title;
-  document.getElementById('sheet-body').innerHTML = d.body;
-  var actionBtn = document.getElementById('sheet-action-btn');
-  if (d.action && state === 0) {
-    actionBtn.textContent = d.actionLabel;
-    actionBtn.classList.add('visible');
-  } else {
-    actionBtn.classList.remove('visible');
-  }
-  document.getElementById('sheet-overlay').classList.add('show');
-  document.getElementById('tips-sheet').classList.add('show');
-}
-
-function onSheetAction() {
-  closeSheet();
-  if (state === 0) {
-    state = 1;
-    renderBanner();
-    showPtToast('+100pt 獲得！');
-    addPt(100);
-    // show confirm button on answer card
-    document.getElementById('confirm-btn').classList.add('visible');
-  }
-}
-
-function closeSheet() {
-  document.getElementById('sheet-overlay').classList.remove('show');
-  document.getElementById('tips-sheet').classList.remove('show');
 }
 
 function doShare() {
-  if (state !== 1) {
-    // シェアは常に押せるが、state1のときだけ進行
-    if (state > 1) return;
-    return;
-  }
+  if (state !== 0) return;
   var btn = document.getElementById('share-btn');
   btn.classList.add('done');
-  btn.innerHTML = '<span>✅</span> シェア済み';
+  btn.innerHTML = '<span>✅</span> 挑戦状を送りました！';
   document.getElementById('fan-count').textContent = '3人';
-  addPt(300);
-  showPtToast('+300pt 獲得！');
-  state = 2;
+  addPt(500);
+  showPtToast('🎉 +500pt 獲得！');
+  state = 1;
   renderBanner();
-  // Show confirm button on answer card
-  document.getElementById('confirm-btn').classList.add('visible');
-  setTimeout(function() {
-    document.getElementById('answer-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 500);
-}
 
-function onConfirmRead() {
-  if (state !== 2) return;
-  state = 3;
-  renderBanner();
-  document.getElementById('confirm-btn').classList.remove('visible');
-  // Enable react button
+  // 回答プレビューを「お試し回答」として活性化
+  document.getElementById('sakura-badge').innerHTML = '🌸 OSHIPOからのお試し回答';
+  document.getElementById('answer-section-title').innerHTML = '<span style="font-size:18px">🐾</span> 新着のファンからの回答';
   var reactBtn = document.getElementById('react-btn');
+  var shareAnswerBtn = document.getElementById('share-answer-btn');
   reactBtn.disabled = false;
   reactBtn.style.opacity = '1';
+  shareAnswerBtn.disabled = false;
+  shareAnswerBtn.style.opacity = '1';
+
   setTimeout(function() {
-    focusTarget('react-btn');
-  }, 300);
+    document.getElementById('answer-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 600);
 }
 
 function doReact() {
-  if (state !== 3) return;
   var btn = document.getElementById('react-btn');
   btn.classList.add('active', 'bounce');
   btn.innerHTML = '❤️ いいね 1';
   btn.disabled = true;
-  clearAllFocus();
   addPt(100);
   showPtToast('+100pt 獲得！');
-  setTimeout(function() {
-    state = 4;
-    renderBanner();
-    document.getElementById('answer-count').textContent = '1回';
-    document.getElementById('answer-badge').style.display = 'block';
-    // Enable share-answer button
-    var shareBtn = document.getElementById('share-answer-btn');
-    shareBtn.disabled = false;
-    shareBtn.style.opacity = '1';
-    setTimeout(function() { focusTarget('share-answer-btn'); }, 300);
-  }, 400);
+  document.getElementById('answer-count').textContent = '1回';
+  document.getElementById('answer-badge').style.display = 'block';
 }
 
 function doShareAnswer() {
-  if (state !== 4) return;
   var btn = document.getElementById('share-answer-btn');
   btn.innerHTML = '✅ シェア済み';
   btn.disabled = true;
-  clearAllFocus();
   addPt(200);
   showPtToast('+200pt 獲得！');
-  setTimeout(function() {
-    state = 5;
-    renderBanner();
-  }, 400);
 }
 
 function addPt(pt) {
@@ -720,8 +658,15 @@ function showPtToast(msg) {
   var t = document.getElementById('pt-toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(function() { t.classList.remove('show'); }, 2000);
+  setTimeout(function() { t.classList.remove('show'); }, 2500);
 }
+
+// tips sheet (バナーの ? ボタンから呼ばれる可能性に備えて残す)
+function closeSheet() {
+  document.getElementById('sheet-overlay').classList.remove('show');
+  document.getElementById('tips-sheet').classList.remove('show');
+}
+function onSheetAction() { closeSheet(); }
 
 renderBanner();
 </script>
